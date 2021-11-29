@@ -1,13 +1,13 @@
 package com.achmadalfiansyah.moviecatalog.ui.movie
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.paging.PagedList
-import com.achmadalfiansyah.moviecatalog.data.source.local.entity.MovieEntity
-import com.achmadalfiansyah.moviecatalog.data.source.repo.ShowRepository
+import androidx.lifecycle.asLiveData
+import com.achmadalfiansyah.moviecatalog.core.domain.model.Movie
+import com.achmadalfiansyah.moviecatalog.core.domain.usecase.ShowUseCase
 import com.achmadalfiansyah.moviecatalog.vo.Resource
 
-class MovieViewModel constructor(private val showRepo : ShowRepository) : ViewModel() {
-    fun getMovies(sort : String) : LiveData<Resource<PagedList<MovieEntity>>> = showRepo.getMovies(sort)
+class MovieViewModel(private val showUseCase: ShowUseCase) : ViewModel() {
+    fun getMovies(sort : String) : LiveData<Resource<List<Movie>>> = showUseCase.getAllMovie(sort).asLiveData()
+//    val movie = showUseCase.getAllMovie(BEST_VOTE).asLiveData()
 }

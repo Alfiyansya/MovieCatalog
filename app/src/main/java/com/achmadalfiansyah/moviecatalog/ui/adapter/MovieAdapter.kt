@@ -2,17 +2,17 @@ package com.achmadalfiansyah.moviecatalog.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.paging.PagedListAdapter
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.achmadalfiansyah.moviecatalog.R
-import com.achmadalfiansyah.moviecatalog.data.source.local.entity.MovieEntity
+import com.achmadalfiansyah.moviecatalog.core.domain.model.Movie
 import com.achmadalfiansyah.moviecatalog.databinding.ItemShowBinding
 import com.achmadalfiansyah.moviecatalog.util.SortUtils.IMAGE_ENDPOINT
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import java.util.ArrayList
 
-class MovieAdapter : PagedListAdapter<MovieEntity,MovieAdapter.ViewHolder>(DIFF_CALLBACK) {
+class MovieAdapter : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
+    private var listMovie = ArrayList<Movie>()
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -22,15 +22,16 @@ class MovieAdapter : PagedListAdapter<MovieEntity,MovieAdapter.ViewHolder>(DIFF_
         return ViewHolder(itemShowBinding)
     }
 
+    override fun getItemCount(): Int = listMovie.size
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val movie = getItem(position)
+        val movie = listMovie[position]
         holder.bind(movie)
     }
 
 
     class ViewHolder(private val binding: ItemShowBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(movie: MovieEntity?) {
+        fun bind(movie: Movie?) {
             with(binding) {
                 Glide.with(itemView.context)
                     .load(IMAGE_ENDPOINT + movie?.imagePath)
@@ -45,15 +46,10 @@ class MovieAdapter : PagedListAdapter<MovieEntity,MovieAdapter.ViewHolder>(DIFF_
 
         }
     }
-    companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<MovieEntity>() {
-            override fun areItemsTheSame(oldItem: MovieEntity, newItem: MovieEntity): Boolean {
-                return oldItem.id == newItem.id
-            }
-            override fun areContentsTheSame(oldItem: MovieEntity, newItem: MovieEntity): Boolean {
-                return oldItem == newItem
-            }
-        }
-    }
 
+    fun setMovieList(movies: List<Movie>?) {
+        if (movies.isNullOrEmpty()) return
+        this.listMovie.clear()
+        this.listMovie.addAll(movies)
+    }
 }

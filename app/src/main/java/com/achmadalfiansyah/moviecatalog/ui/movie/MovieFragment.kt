@@ -10,19 +10,16 @@ import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.paging.PagedList
 import androidx.recyclerview.widget.GridLayoutManager
 import com.achmadalfiansyah.moviecatalog.R
-import com.achmadalfiansyah.moviecatalog.data.source.local.entity.MovieEntity
+import com.achmadalfiansyah.moviecatalog.core.domain.model.Movie
 import com.achmadalfiansyah.moviecatalog.databinding.FragmentMovieBinding
 import com.achmadalfiansyah.moviecatalog.ui.adapter.MovieAdapter
 import com.achmadalfiansyah.moviecatalog.util.SortUtils.BEST_VOTE
 import com.achmadalfiansyah.moviecatalog.util.SortUtils.RANDOM_VOTE
 import com.achmadalfiansyah.moviecatalog.util.SortUtils.WORST_VOTE
 import com.achmadalfiansyah.moviecatalog.vo.Resource
-import com.achmadalfiansyah.moviecatalog.vo.Status
 import org.koin.android.ext.android.inject
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MovieFragment : Fragment(), Toolbar.OnMenuItemClickListener {
@@ -77,17 +74,17 @@ class MovieFragment : Fragment(), Toolbar.OnMenuItemClickListener {
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private val movieObserver = Observer<Resource<PagedList<MovieEntity>>> { movies ->
+    private val movieObserver = Observer<Resource<List<Movie>>> { movies ->
         if (movies != null) {
-            when (movies.status) {
-                Status.LOADING -> showProgressBar(true)
-                Status.SUCCESS -> {
+            when (movies) {
+                is Resource.Loading -> showProgressBar(true)
+                is Resource.Success -> {
                     showProgressBar(false)
-                    movieAdapter.submitList(movies.data)
+                    movieAdapter.setMovieList(movies.data)
                     setUpRecyclerViewMovie()
                     movieAdapter.notifyDataSetChanged()
                 }
-                Status.ERROR -> {
+                is Resource.Error -> {
                     showProgressBar(false)
                     Toast.makeText(context, R.string.terjadi_kesalahan, Toast.LENGTH_SHORT).show()
                 }

@@ -10,17 +10,15 @@ import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.paging.PagedList
 import androidx.recyclerview.widget.GridLayoutManager
 import com.achmadalfiansyah.moviecatalog.R
-import com.achmadalfiansyah.moviecatalog.data.source.local.entity.TvShowEntity
+import com.achmadalfiansyah.moviecatalog.core.domain.model.TvShow
 import com.achmadalfiansyah.moviecatalog.databinding.FragmentTvShowBinding
 import com.achmadalfiansyah.moviecatalog.ui.adapter.TvShowAdapter
 import com.achmadalfiansyah.moviecatalog.util.SortUtils.BEST_VOTE
 import com.achmadalfiansyah.moviecatalog.util.SortUtils.RANDOM_VOTE
 import com.achmadalfiansyah.moviecatalog.util.SortUtils.WORST_VOTE
 import com.achmadalfiansyah.moviecatalog.vo.Resource
-import com.achmadalfiansyah.moviecatalog.vo.Status
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -74,17 +72,17 @@ class TvShowFragment : Fragment(), Toolbar.OnMenuItemClickListener {
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private val tvShowObserver = Observer<Resource<PagedList<TvShowEntity>>> { tvShows ->
+    private val tvShowObserver = Observer<Resource<List<TvShow>>> { tvShows ->
         if (tvShows != null) {
-            when (tvShows.status) {
-                Status.LOADING -> showProgressBar(true)
-                Status.SUCCESS -> {
+            when (tvShows) {
+                is Resource.Loading -> showProgressBar(true)
+                is Resource.Success -> {
                     showProgressBar(false)
-                    tvShowAdapter.submitList(tvShows.data)
+                    tvShowAdapter.setTvShowList(tvShows.data)
                     setUpRecyclerViewTv()
                     tvShowAdapter.notifyDataSetChanged()
                 }
-                Status.ERROR -> {
+                is Resource.Error -> {
                     showProgressBar(false)
                     Toast.makeText(context, R.string.terjadi_kesalahan, Toast.LENGTH_SHORT).show()
                 }
