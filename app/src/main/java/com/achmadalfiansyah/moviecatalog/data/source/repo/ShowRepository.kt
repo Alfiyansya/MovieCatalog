@@ -3,7 +3,6 @@ package com.achmadalfiansyah.moviecatalog.data.source.repo
 import androidx.lifecycle.LiveData
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import com.achmadalfiansyah.moviecatalog.data.source.local.ILocalDataSource
 import com.achmadalfiansyah.moviecatalog.data.source.local.LocalDataSource
 import com.achmadalfiansyah.moviecatalog.data.source.local.entity.MovieEntity
 import com.achmadalfiansyah.moviecatalog.data.source.local.entity.TvShowEntity
@@ -15,13 +14,11 @@ import com.achmadalfiansyah.moviecatalog.data.source.remote.response.Movie
 import com.achmadalfiansyah.moviecatalog.data.source.remote.response.TvShow
 import com.achmadalfiansyah.moviecatalog.vo.Resource
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import java.util.ArrayList
 
 class ShowRepository(
     private val remoteDataSource: RemoteDataSource,
-    private val localDataSource: ILocalDataSource,
+    private val localDataSource: LocalDataSource,
     private val coroutineScope: CoroutineScope
 ) :
     IRemoteDataSource {

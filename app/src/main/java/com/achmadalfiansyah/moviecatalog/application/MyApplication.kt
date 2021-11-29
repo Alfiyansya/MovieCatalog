@@ -21,7 +21,7 @@ class MyApplication : Application() {
                     databaseModule,
                     adapterModule,
                     coroutineScopeModule,
-                    dataSourceModule
+                    localDataSource
                 )
             )
         }

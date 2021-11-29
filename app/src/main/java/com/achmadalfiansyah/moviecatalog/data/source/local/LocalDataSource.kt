@@ -12,18 +12,18 @@ import com.achmadalfiansyah.moviecatalog.util.SortUtils.TV_SHOW_ENTITY
 
 class LocalDataSource(
     private val movieDao: MovieDao, private val tvShowDao: TvShowDao
-): ILocalDataSource {
-    override fun getMovieList(sort: String):
+) {
+    fun getMovieList(sort: String):
             DataSource.Factory<Int, MovieEntity> =
         movieDao.getMovieList(SortUtils.getSortedQuery(sort, MOVIE_ENTITY))
 
-    override fun getTvShowList(sort: String):
+    fun getTvShowList(sort: String):
             DataSource.Factory<Int, TvShowEntity> =
         tvShowDao.getTvShowList(SortUtils.getSortedQuery(sort, TV_SHOW_ENTITY))
 
-    override suspend fun insertMovieList(movieEntities: List<MovieEntity>) =
+    fun insertMovieList(movieEntities: List<MovieEntity>) =
         movieDao.insertMovieList(movieEntities)
 
-    override suspend fun insertTvShowList(tvShowEntities: List<TvShowEntity>) =
+    fun insertTvShowList(tvShowEntities: List<TvShowEntity>) =
         tvShowDao.insertTvShowList(tvShowEntities)
 }

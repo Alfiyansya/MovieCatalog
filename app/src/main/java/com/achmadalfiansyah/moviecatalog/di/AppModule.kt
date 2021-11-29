@@ -2,7 +2,6 @@ package com.achmadalfiansyah.moviecatalog.di
 
 import android.content.Context
 import androidx.room.Room
-import com.achmadalfiansyah.moviecatalog.data.source.local.ILocalDataSource
 import com.achmadalfiansyah.moviecatalog.data.source.local.LocalDataSource
 import com.achmadalfiansyah.moviecatalog.data.source.local.room.MovieDao
 import com.achmadalfiansyah.moviecatalog.data.source.local.room.ShowDatabase
@@ -40,11 +39,10 @@ val repositoryModule = module {
         ShowRepository(get(), get(), get())
     }
 }
-val dataSourceModule = module {
-    fun provideShowLocalDataSource(movieDao: MovieDao, tvShowDao: TvShowDao): ILocalDataSource {
-        return LocalDataSource(movieDao, tvShowDao)
+val localDataSource = module {
+    single {
+        LocalDataSource(get(), get())
     }
-    single { provideShowLocalDataSource(get(), get()) }
 
 }
 val databaseModule = module {
