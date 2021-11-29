@@ -1,5 +1,6 @@
 package com.achmadalfiansyah.moviecatalog.core.data.source.local
 
+import androidx.lifecycle.LiveData
 import com.achmadalfiansyah.moviecatalog.core.data.source.local.entity.MovieEntity
 import com.achmadalfiansyah.moviecatalog.core.data.source.local.entity.TvShowEntity
 import com.achmadalfiansyah.moviecatalog.core.data.source.local.room.MovieDao
@@ -19,6 +20,12 @@ class LocalDataSource(
      fun getTvShowList(sort: String):
              Flow<List<TvShowEntity>> =
         tvShowDao.getTvShowList(SortUtils.getSortedQuery(sort, TV_SHOW_ENTITY))
+
+     fun getMovieDetail(movieId: String):
+            Flow<MovieEntity> = movieDao.getMovieDetail(movieId)
+
+     fun getTvShowDetail(tvShowId: String):
+            Flow<TvShowEntity> = tvShowDao.getTvShowDetail(tvShowId)
 
      fun insertMovieList(movieEntities: List<MovieEntity>) = movieDao.insertMovieList(movieEntities)
 

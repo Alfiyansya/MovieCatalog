@@ -5,9 +5,7 @@ import com.achmadalfiansyah.moviecatalog.core.data.source.local.entity.MovieEnti
 import com.achmadalfiansyah.moviecatalog.core.data.source.local.entity.TvShowEntity
 import com.achmadalfiansyah.moviecatalog.core.data.source.remote.NetworkBoundResource
 import com.achmadalfiansyah.moviecatalog.core.data.source.remote.RemoteDataSource
-import com.achmadalfiansyah.moviecatalog.core.data.source.remote.response.ApiResponse
-import com.achmadalfiansyah.moviecatalog.core.data.source.remote.response.MovieResponse
-import com.achmadalfiansyah.moviecatalog.core.data.source.remote.response.TvShowResponse
+import com.achmadalfiansyah.moviecatalog.core.data.source.remote.response.*
 import com.achmadalfiansyah.moviecatalog.core.domain.model.Movie
 import com.achmadalfiansyah.moviecatalog.core.domain.model.TvShow
 import com.achmadalfiansyah.moviecatalog.core.domain.repository.IShowRepository
@@ -71,6 +69,48 @@ class ShowRepository(
                 localDataSource.insertTvShowList(tvShowList)
 
 
+            }
+
+        }.asFlow()
+    }
+
+    override fun getMovieDetail(id: Int?): Flow<Resource<Movie>> {
+        return object : NetworkBoundResource<Movie, MovieDetailResponse>(){
+            override fun loadFromDB(): Flow<Movie> {
+                TODO("Not yet implemented")
+            }
+
+            override fun shouldFetch(data: Movie?): Boolean {
+                TODO("Not yet implemented")
+            }
+
+            override suspend fun createCall(): Flow<ApiResponse<MovieDetailResponse>> {
+                TODO("Not yet implemented")
+            }
+
+            override suspend fun saveCallResult(data: MovieDetailResponse) {
+                TODO("Not yet implemented")
+            }
+
+        }.asFlow()
+    }
+
+    override fun getTvShowDetail(id: Int?): Flow<Resource<TvShow>> {
+        return object: NetworkBoundResource<TvShow,TvShowDetailResponse>(){
+            override fun loadFromDB(): Flow<TvShow> {
+                TODO("Not yet implemented")
+            }
+
+            override fun shouldFetch(data: TvShow?): Boolean {
+                TODO("Not yet implemented")
+            }
+
+            override suspend fun createCall(): Flow<ApiResponse<TvShowDetailResponse>> {
+                TODO("Not yet implemented")
+            }
+
+            override suspend fun saveCallResult(data: TvShowDetailResponse) {
+                TODO("Not yet implemented")
             }
 
         }.asFlow()

@@ -22,7 +22,9 @@ class TvShowAdapter: RecyclerView.Adapter<TvShowAdapter.ViewHolder>() {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val tvShow = listTvShow[position]
         holder.bind(tvShow)
+        holder.itemView.setOnClickListener { onItemClickCallback.onItemClicked(tvShow) }
     }
+    private lateinit var onItemClickCallback: OnItemTvShowClickCallback
 
     class ViewHolder(private val binding: ItemShowBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -44,6 +46,9 @@ class TvShowAdapter: RecyclerView.Adapter<TvShowAdapter.ViewHolder>() {
         if (tvShow.isNullOrEmpty()) return
         this.listTvShow.clear()
         this.listTvShow.addAll(tvShow)
+    }
+    fun setOnItemClickCallback(onItemClickCallback: OnItemTvShowClickCallback) {
+        this.onItemClickCallback = onItemClickCallback
     }
 
     override fun getItemCount(): Int = listTvShow.size

@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Alf/AndroidStudioProjects/MovieCatalog/app/src/main/res/drawable-v24/ic_favorite_24.xml" value="0.2203125" />
         <entry key="..\:/Users/Alf/AndroidStudioProjects/MovieCatalog/app/src/main/res/drawable/ic_favorite_border_24.xml" value="0.1421875" />
         <entry key="..\:/Users/Alf/AndroidStudioProjects/MovieCatalog/app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.1421875" />
         <entry key="..\:/Users/Alf/AndroidStudioProjects/MovieCatalog/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1421875" />
@@ -10,6 +11,7 @@
         <entry key="..\:/Users/Alf/AndroidStudioProjects/MovieCatalog/app/src/main/res/drawable/ic_movie_24.xml" value="0.1421875" />
         <entry key="..\:/Users/Alf/AndroidStudioProjects/MovieCatalog/app/src/main/res/drawable/ic_notifications_black_24dp.xml" value="0.1421875" />
         <entry key="..\:/Users/Alf/AndroidStudioProjects/MovieCatalog/app/src/main/res/drawable/ic_tv_show_24.xml" value="0.1421875" />
+        <entry key="..\:/Users/Alf/AndroidStudioProjects/MovieCatalog/app/src/main/res/layout/activity_detail.xml" value="0.22" />
         <entry key="..\:/Users/Alf/AndroidStudioProjects/MovieCatalog/app/src/main/res/layout/activity_home.xml" value="0.1453125" />
         <entry key="..\:/Users/Alf/AndroidStudioProjects/MovieCatalog/app/src/main/res/layout/activity_main.xml" value="0.1082427536231884" />
         <entry key="..\:/Users/Alf/AndroidStudioProjects/MovieCatalog/app/src/main/res/layout/activity_splash_screen.xml" value="0.1" />

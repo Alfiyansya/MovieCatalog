@@ -1,6 +1,7 @@
 package com.achmadalfiansyah.moviecatalog.ui.movie
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -15,6 +16,9 @@ import com.achmadalfiansyah.moviecatalog.R
 import com.achmadalfiansyah.moviecatalog.core.domain.model.Movie
 import com.achmadalfiansyah.moviecatalog.databinding.FragmentMovieBinding
 import com.achmadalfiansyah.moviecatalog.ui.adapter.MovieAdapter
+import com.achmadalfiansyah.moviecatalog.ui.adapter.OnItemMovieClickCallback
+import com.achmadalfiansyah.moviecatalog.ui.detail.DetailActivity
+import com.achmadalfiansyah.moviecatalog.util.DataMapper.MOVIE
 import com.achmadalfiansyah.moviecatalog.util.SortUtils.BEST_VOTE
 import com.achmadalfiansyah.moviecatalog.util.SortUtils.RANDOM_VOTE
 import com.achmadalfiansyah.moviecatalog.util.SortUtils.WORST_VOTE
@@ -104,5 +108,14 @@ class MovieFragment : Fragment(), Toolbar.OnMenuItemClickListener {
             this.setHasFixedSize(true)
             this.adapter = movieAdapter
         }
+        movieAdapter.setOnItemClickCallback(object : OnItemMovieClickCallback {
+            override fun onItemClicked(movie: Movie?) {
+                val intent = Intent(requireActivity(), DetailActivity::class.java)
+                intent.putExtra(DetailActivity.EXTRA_ID, movie?.id)
+                intent.putExtra(DetailActivity.EXTRA_KEY, MOVIE)
+                startActivity(intent)
+            }
+        })
     }
+
 }

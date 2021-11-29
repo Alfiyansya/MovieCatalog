@@ -1,6 +1,7 @@
 package com.achmadalfiansyah.moviecatalog.ui.tvshow
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -14,7 +15,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.achmadalfiansyah.moviecatalog.R
 import com.achmadalfiansyah.moviecatalog.core.domain.model.TvShow
 import com.achmadalfiansyah.moviecatalog.databinding.FragmentTvShowBinding
+import com.achmadalfiansyah.moviecatalog.ui.adapter.OnItemTvShowClickCallback
 import com.achmadalfiansyah.moviecatalog.ui.adapter.TvShowAdapter
+import com.achmadalfiansyah.moviecatalog.ui.detail.DetailActivity
+import com.achmadalfiansyah.moviecatalog.util.DataMapper
+import com.achmadalfiansyah.moviecatalog.util.DataMapper.TVSHOW
 import com.achmadalfiansyah.moviecatalog.util.SortUtils.BEST_VOTE
 import com.achmadalfiansyah.moviecatalog.util.SortUtils.RANDOM_VOTE
 import com.achmadalfiansyah.moviecatalog.util.SortUtils.WORST_VOTE
@@ -98,6 +103,14 @@ class TvShowFragment : Fragment(), Toolbar.OnMenuItemClickListener {
             this.setHasFixedSize(true)
             this.adapter = tvShowAdapter
         }
+        tvShowAdapter.setOnItemClickCallback(object : OnItemTvShowClickCallback {
+            override fun onItemClicked(tvShow: TvShow?) {
+                val intent = Intent(requireActivity(), DetailActivity::class.java)
+                intent.putExtra(DetailActivity.EXTRA_ID, tvShow?.id)
+                intent.putExtra(DetailActivity.EXTRA_KEY, TVSHOW)
+                startActivity(intent)
+            }
+        })
     }
 
     private fun showProgressBar(isLoading: Boolean) {

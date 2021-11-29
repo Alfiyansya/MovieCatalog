@@ -8,4 +8,6 @@ import kotlinx.coroutines.flow.Flow
 interface IShowRepository {
     fun getMovies(sort: String): Flow<Resource<List<Movie>>>
     fun getTvShows(sort: String): Flow<Resource<List<TvShow>>>
+    fun getMovieDetail(id : Int?): Flow<Resource<Movie>>
+    fun getTvShowDetail(id : Int?): Flow<Resource<TvShow>>
 }

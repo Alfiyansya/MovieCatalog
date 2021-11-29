@@ -13,4 +13,11 @@ class ShowInteractor(private val showRepository: IShowRepository) : ShowUseCase 
 
     override fun getAllTvShow(sort : String) =
         showRepository.getTvShows(sort)
+
+    override fun getMovieDetail(id: Int): Flow<Resource<Movie>> =
+        showRepository.getMovieDetail(id)
+
+    override fun getTvShowDetail(id: Int): Flow<Resource<TvShow>> =
+        showRepository.getTvShowDetail(id)
+
 }

@@ -8,6 +8,9 @@ import com.achmadalfiansyah.moviecatalog.core.domain.model.Movie
 import com.achmadalfiansyah.moviecatalog.core.domain.model.TvShow
 
 object DataMapper {
+    const val MOVIE = "Movie"
+    const val TVSHOW = "Tv Show"
+
     fun mapMovieResponsesToEntities(input: List<MovieResponse>): List<MovieEntity> {
         val movieList = ArrayList<MovieEntity>()
         input.map {

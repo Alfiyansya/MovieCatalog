@@ -26,8 +26,10 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val movie = listMovie[position]
         holder.bind(movie)
+        holder.itemView.setOnClickListener { onItemClickCallback.onItemClicked(movie) }
     }
 
+    private lateinit var onItemClickCallback: OnItemMovieClickCallback
 
     class ViewHolder(private val binding: ItemShowBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -45,6 +47,9 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
             }
 
         }
+    }
+    fun setOnItemClickCallback(onItemClickCallback: OnItemMovieClickCallback) {
+        this.onItemClickCallback = onItemClickCallback
     }
 
     fun setMovieList(movies: List<Movie>?) {
