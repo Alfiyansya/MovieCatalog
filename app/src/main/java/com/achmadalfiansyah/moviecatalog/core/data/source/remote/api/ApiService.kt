@@ -17,6 +17,7 @@ interface ApiService {
     suspend fun getTvShows(
         @Query("api_key") apiKey: String = BuildConfig.TMDB_API_KEY
     ): ListResponse<TvShowResponse>
+
     @GET("movie/{movie_id}")
     suspend fun getMovieDetail(
         @Path("movie_id") id: Int?,

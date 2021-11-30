@@ -8,6 +8,6 @@ import com.achmadalfiansyah.moviecatalog.core.domain.model.TvShow
 import com.achmadalfiansyah.moviecatalog.core.domain.usecase.ShowUseCase
 import com.achmadalfiansyah.moviecatalog.vo.Resource
 
-class TvShowViewModel (private val showUseCase : ShowUseCase) : ViewModel() {
+class TvShowViewModel(private val showUseCase : ShowUseCase) : ViewModel() {
     fun getTvShows(sort : String) : LiveData<Resource<List<TvShow>>> = showUseCase.getAllTvShow(sort).asLiveData()
 }

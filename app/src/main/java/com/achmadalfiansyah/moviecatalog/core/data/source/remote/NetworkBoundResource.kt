@@ -5,7 +5,7 @@ import com.achmadalfiansyah.moviecatalog.vo.Resource
 import kotlinx.coroutines.flow.*
 
 abstract class NetworkBoundResource<ResultType, RequestType> {
-//    private val result = MediatorLiveData<Resource<ResultType>>()
+    //    private val result = MediatorLiveData<Resource<ResultType>>()
     private var result: Flow<Resource<ResultType>> = flow {
         emit(Resource.Loading())
         val dbSource = loadFromDB().first()

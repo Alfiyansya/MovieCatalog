@@ -13,13 +13,13 @@ interface TvShowDao {
     fun getTvShowList(query: SimpleSQLiteQuery): Flow<List<TvShowEntity>>
 
     @Query("SElECT * FROM tvshowentity WHERE tvShowId = :tvShowId")
-    fun getTvShowDetail(tvShowId: String): Flow<TvShowEntity>
+    fun getTvShowDetail(tvShowId: Int?): Flow<TvShowEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertTvShowList(TvShowEntity: List<TvShowEntity>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertTvShowDetail(TvShowEntity: TvShowEntity)
+    fun insertTvShowDetail(TvShowEntity: TvShowEntity)
 
 
 }

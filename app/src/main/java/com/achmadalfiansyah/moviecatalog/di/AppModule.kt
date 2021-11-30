@@ -14,6 +14,7 @@ import com.achmadalfiansyah.moviecatalog.core.domain.usecase.ShowInteractor
 import com.achmadalfiansyah.moviecatalog.core.domain.usecase.ShowUseCase
 import com.achmadalfiansyah.moviecatalog.ui.adapter.MovieAdapter
 import com.achmadalfiansyah.moviecatalog.ui.adapter.TvShowAdapter
+import com.achmadalfiansyah.moviecatalog.ui.detail.DetailViewModel
 import com.achmadalfiansyah.moviecatalog.ui.movie.MovieViewModel
 import com.achmadalfiansyah.moviecatalog.ui.tvshow.TvShowViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -26,6 +27,7 @@ import org.koin.dsl.module
 val showViewModelModule = module {
     viewModel { MovieViewModel(get()) }
     viewModel { TvShowViewModel(get()) }
+    viewModel { DetailViewModel(get()) }
 }
 val adapterModule = module {
     factory { MovieAdapter() }

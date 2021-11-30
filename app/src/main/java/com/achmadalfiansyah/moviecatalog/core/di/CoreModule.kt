@@ -27,7 +27,7 @@ val repositoryModule = module {
     }
 
     single<IShowRepository> {
-        ShowRepository(get(), get())
+        ShowRepository(get(), get(),get())
     }
     factory { CoroutineScope(Dispatchers.IO) }
 }

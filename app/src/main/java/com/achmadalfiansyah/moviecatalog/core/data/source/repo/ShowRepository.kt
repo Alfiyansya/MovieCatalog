@@ -1,8 +1,6 @@
 package com.achmadalfiansyah.moviecatalog.core.data.source.repo
 
 import com.achmadalfiansyah.moviecatalog.core.data.source.local.LocalDataSource
-import com.achmadalfiansyah.moviecatalog.core.data.source.local.entity.MovieEntity
-import com.achmadalfiansyah.moviecatalog.core.data.source.local.entity.TvShowEntity
 import com.achmadalfiansyah.moviecatalog.core.data.source.remote.NetworkBoundResource
 import com.achmadalfiansyah.moviecatalog.core.data.source.remote.RemoteDataSource
 import com.achmadalfiansyah.moviecatalog.core.data.source.remote.response.*
@@ -12,18 +10,16 @@ import com.achmadalfiansyah.moviecatalog.core.domain.repository.IShowRepository
 import com.achmadalfiansyah.moviecatalog.util.DataMapper
 import com.achmadalfiansyah.moviecatalog.vo.Resource
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import java.util.ArrayList
 
 class ShowRepository(
     private val remoteDataSource: RemoteDataSource,
     private val localDataSource: LocalDataSource,
-) :
-    IShowRepository {
+    private val coroutineScope: CoroutineScope
+) : IShowRepository {
     override fun getMovies(sort: String): Flow<Resource<List<Movie>>> {
         return object : NetworkBoundResource<List<Movie>, List<MovieResponse>>() {
             override fun loadFromDB(): Flow<List<Movie>> {
@@ -39,8 +35,10 @@ class ShowRepository(
                 remoteDataSource.getMovies()
 
             override suspend fun saveCallResult(data: List<MovieResponse>) {
-                val movieList = DataMapper.mapMovieResponsesToEntities(data)
-                localDataSource.insertMovieList(movieList)
+                coroutineScope.launch(Dispatchers.IO) {
+                    val movieList = DataMapper.mapMovieResponsesToEntities(data)
+                    localDataSource.insertMovieList(movieList)
+                }
             }
 
         }.asFlow()
@@ -65,52 +63,62 @@ class ShowRepository(
             }
 
             override suspend fun saveCallResult(data: List<TvShowResponse>) {
-                val tvShowList = DataMapper.mapTvShowResponsesToEntities(data)
-                localDataSource.insertTvShowList(tvShowList)
-
-
+                coroutineScope.launch(Dispatchers.IO) {
+                    val tvShowList = DataMapper.mapTvShowResponsesToEntities(data)
+                    localDataSource.insertTvShowList(tvShowList)
+                }
             }
 
         }.asFlow()
     }
 
-    override fun getMovieDetail(id: Int?): Flow<Resource<Movie>> {
-        return object : NetworkBoundResource<Movie, MovieDetailResponse>(){
+    override fun getMovieDetail(id: Int): Flow<Resource<Movie>> {
+        return object : NetworkBoundResource<Movie, MovieDetailResponse>() {
             override fun loadFromDB(): Flow<Movie> {
-                TODO("Not yet implemented")
+                return localDataSource.getMovieDetail(id).map {
+                    DataMapper.mapMovieDetailEntitiesToDomain(it)
+                }
             }
 
             override fun shouldFetch(data: Movie?): Boolean {
-                TODO("Not yet implemented")
+                return data != null && data.genres == ""
             }
 
             override suspend fun createCall(): Flow<ApiResponse<MovieDetailResponse>> {
-                TODO("Not yet implemented")
+                return remoteDataSource.getMovieDetail(id)
             }
 
             override suspend fun saveCallResult(data: MovieDetailResponse) {
-                TODO("Not yet implemented")
+                coroutineScope.launch(Dispatchers.IO) {
+                    val movie = DataMapper.mapMovieDetailResponsesToEntities(data)
+                    localDataSource.insertMovieDetail(movie)
+                }
             }
 
         }.asFlow()
     }
 
     override fun getTvShowDetail(id: Int?): Flow<Resource<TvShow>> {
-        return object: NetworkBoundResource<TvShow,TvShowDetailResponse>(){
+        return object : NetworkBoundResource<TvShow, TvShowDetailResponse>() {
             override fun loadFromDB(): Flow<TvShow> {
-                TODO("Not yet implemented")
+                return localDataSource.getTvShowDetail(id).map {
+                    DataMapper.mapTvShowDetailEntitiesToDomain(it)
+                }
             }
 
             override fun shouldFetch(data: TvShow?): Boolean {
-                TODO("Not yet implemented")
+                return data != null && data.genres == ""
             }
 
             override suspend fun createCall(): Flow<ApiResponse<TvShowDetailResponse>> {
-                TODO("Not yet implemented")
+                return remoteDataSource.getTvShowDetail(id)
             }
 
             override suspend fun saveCallResult(data: TvShowDetailResponse) {
-                TODO("Not yet implemented")
+                coroutineScope.launch(Dispatchers.IO) {
+                    val tvShow = DataMapper.mapTvShowDetailResponsesToEntities(data)
+                    localDataSource.insertTvShowDetail(tvShow)
+                }
             }
 
         }.asFlow()

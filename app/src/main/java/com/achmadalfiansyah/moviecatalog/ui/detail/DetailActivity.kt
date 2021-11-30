@@ -16,11 +16,13 @@ import com.achmadalfiansyah.moviecatalog.util.SortUtils.IMAGE_ENDPOINT
 import com.achmadalfiansyah.moviecatalog.vo.Resource
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DetailActivity : AppCompatActivity() {
     private var _binding: ActivityDetailBinding? = null
     private val binding get() = _binding
-    private val detailViewModel: DetailViewModel by viewModels()
+
+    private val detailViewModel: DetailViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,11 +37,13 @@ class DetailActivity : AppCompatActivity() {
     private fun checkKeyAndGetId(id: String?,key: String?){
         if (key == MOVIE){
             showDetailData(false)
+            showFailedLoadData(false)
             id?.toInt()?.let{
                 detailViewModel.getMovieDetail(it).observe(this@DetailActivity, movieObserver)
             }
         }else{
             showDetailData(false)
+            showFailedLoadData(false)
             id?.toInt()?.let {
                 detailViewModel.getTvShowDetail(it).observe(this@DetailActivity, tvShowObserver)
             }
@@ -87,6 +91,7 @@ class DetailActivity : AppCompatActivity() {
                 is Resource.Error -> {
                     showProgressBar(false)
                     showDetailData(false)
+                    showFailedLoadData(true)
                     Toast.makeText(this@DetailActivity, R.string.terjadi_kesalahan, Toast.LENGTH_SHORT).show()
                 }
             }
@@ -151,12 +156,18 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun showProgressBar(isLoading: Boolean) {
-        binding?.detailProgressBar?.visibility = if (isLoading) View.VISIBLE else View.GONE
+        binding?.detailAnimLoader?.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
     private fun showDetailData(isAppears: Boolean) {
         binding?.detailData?.visibility = if (isAppears) View.VISIBLE else View.GONE
+        binding?.toolbarLayout?.visibility = if (isAppears) View.VISIBLE else View.GONE
+        binding?.detailFabFavorite?.visibility = if (isAppears) View.VISIBLE else View.GONE
     }
+    private fun showFailedLoadData(isLoading: Boolean) {
+        binding?.detailAnimLoader?.visibility = if (isLoading) View.VISIBLE else View.GONE
+    }
+
     companion object {
         const val EXTRA_ID = "id"
         const val EXTRA_KEY = "key"

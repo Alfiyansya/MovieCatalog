@@ -222,21 +222,25 @@
         app:layout_constraintStart_toEndOf="@+id/overview"
         app:layout_constraintTop_toTopOf="@+id/overview"
         app:srcCompat="@drawable/ic_favorite_24" />
-    <ProgressBar
-        android:id="@+id/detail_progress_bar"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:elevation="8dp"
-        android:layout_marginBottom="8dp"
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/detail_anim_loader"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center_horizontal|center_vertical"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:elevation="4dp"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/anim_loader" />
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/detail_anim_failed_load"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:visibility="gone"
+        android:elevation="4dp"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/anim_failed" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

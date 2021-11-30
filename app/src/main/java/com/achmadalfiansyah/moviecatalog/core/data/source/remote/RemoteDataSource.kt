@@ -15,23 +15,24 @@ class RemoteDataSource(private val api: ApiService) {
             try {
                 val response = api.getMovies()
                 val dataArray = response.result
-                if (dataArray.isNotEmpty()){
+                if (dataArray.isNotEmpty()) {
                     emit(ApiResponse.Success(response.result))
                 } else {
                     emit(ApiResponse.Empty)
                 }
-            } catch (e : Exception){
+            } catch (e: Exception) {
                 emit(ApiResponse.Error(e.toString()))
                 Log.e("RemoteDataSource", e.toString())
             }
         }.flowOn(Dispatchers.IO)
     }
-    suspend fun getMovieDetail(id :Int?): Flow<ApiResponse<MovieDetailResponse>>{
+
+    suspend fun getMovieDetail(id: Int): Flow<ApiResponse<MovieDetailResponse>> {
         return flow {
             try {
                 val response = api.getMovieDetail(id)
-                    emit(ApiResponse.Success(response))
-            } catch (e : Exception){
+                emit(ApiResponse.Success(response))
+            } catch (e: Exception) {
                 emit(ApiResponse.Error(e.toString()))
                 Log.e("RemoteDataSource", e.toString())
             }
@@ -43,23 +44,24 @@ class RemoteDataSource(private val api: ApiService) {
             try {
                 val response = api.getTvShows()
                 val dataArray = response.result
-                if (dataArray.isNotEmpty()){
+                if (dataArray.isNotEmpty()) {
                     emit(ApiResponse.Success(response.result))
                 } else {
                     emit(ApiResponse.Empty)
                 }
-            } catch (e : Exception){
+            } catch (e: Exception) {
                 emit(ApiResponse.Error(e.toString()))
                 Log.e("RemoteDataSource", e.toString())
             }
         }.flowOn(Dispatchers.IO)
     }
-    suspend fun getTvShowDetail(id :Int?): Flow<ApiResponse<TvShowDetailResponse>>{
+
+    suspend fun getTvShowDetail(id: Int?): Flow<ApiResponse<TvShowDetailResponse>> {
         return flow {
             try {
                 val response = api.getTvShowDetail(id)
                 emit(ApiResponse.Success(response))
-            } catch (e : Exception){
+            } catch (e: Exception) {
                 emit(ApiResponse.Error(e.toString()))
                 Log.e("RemoteDataSource", e.toString())
             }

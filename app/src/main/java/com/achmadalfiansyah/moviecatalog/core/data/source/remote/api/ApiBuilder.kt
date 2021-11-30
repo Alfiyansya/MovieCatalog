@@ -1,7 +1,6 @@
 package com.achmadalfiansyah.moviecatalog.core.data.source.remote.api
 
 
-
 import com.achmadalfiansyah.moviecatalog.BuildConfig
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

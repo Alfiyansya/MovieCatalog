@@ -1,6 +1,5 @@
 package com.achmadalfiansyah.moviecatalog.core.domain.usecase
 
-import com.achmadalfiansyah.moviecatalog.core.data.source.repo.ShowRepository
 import com.achmadalfiansyah.moviecatalog.core.domain.model.Movie
 import com.achmadalfiansyah.moviecatalog.core.domain.model.TvShow
 import com.achmadalfiansyah.moviecatalog.core.domain.repository.IShowRepository
