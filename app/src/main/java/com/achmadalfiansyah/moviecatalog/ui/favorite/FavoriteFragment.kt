@@ -4,17 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import com.achmadalfiansyah.moviecatalog.R
 import com.achmadalfiansyah.moviecatalog.databinding.FragmentFavoriteBinding
+import com.achmadalfiansyah.moviecatalog.ui.adapter.SectionPagerAdapter
+import com.google.android.material.tabs.TabLayoutMediator
 
 class FavoriteFragment : Fragment() {
 
-    private lateinit var favoriteViewModel: FavoriteViewModel
-    private var _binding: FragmentFavoriteBinding? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+    private var _binding: FragmentFavoriteBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -22,21 +22,37 @@ class FavoriteFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        favoriteViewModel =
-            ViewModelProvider(this)[FavoriteViewModel::class.java]
-
         _binding = FragmentFavoriteBinding.inflate(inflater, container, false)
-//        val root: View = binding.root
-//
-//        val textView: TextView = binding.textNotifications
-//        favoriteViewModel.text.observe(viewLifecycleOwner, Observer {
-//            textView.text = it
-//        })
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setTabLayout()
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+
+    private fun setTabLayout(){
+        val sectionPagerAdapter = SectionPagerAdapter(requireActivity().supportFragmentManager,lifecycle)
+        binding.viewPager.adapter = sectionPagerAdapter
+        binding.viewPager.let {
+            binding.favTabLayout.let { it1 ->
+                TabLayoutMediator(it1, it) { tab, position ->
+                    tab.text = resources.getString(TAB_TITLES[position])
+                }.attach()
+            }
+        }
+    }
+
+    companion object{
+        @StringRes
+        private val TAB_TITLES = intArrayOf(
+            R.string.tab_text_1,
+            R.string.tab_text_2
+        )
     }
 }

@@ -18,7 +18,6 @@ import com.achmadalfiansyah.moviecatalog.databinding.FragmentTvShowBinding
 import com.achmadalfiansyah.moviecatalog.ui.adapter.OnItemTvShowClickCallback
 import com.achmadalfiansyah.moviecatalog.ui.adapter.TvShowAdapter
 import com.achmadalfiansyah.moviecatalog.ui.detail.DetailActivity
-import com.achmadalfiansyah.moviecatalog.util.DataMapper
 import com.achmadalfiansyah.moviecatalog.util.DataMapper.TVSHOW
 import com.achmadalfiansyah.moviecatalog.util.SortUtils.BEST_VOTE
 import com.achmadalfiansyah.moviecatalog.util.SortUtils.RANDOM_VOTE

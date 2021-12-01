@@ -1,5 +1,6 @@
 package com.achmadalfiansyah.moviecatalog.ui.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -9,7 +10,7 @@ import com.achmadalfiansyah.moviecatalog.databinding.ItemShowBinding
 import com.achmadalfiansyah.moviecatalog.util.SortUtils.IMAGE_ENDPOINT
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import java.util.ArrayList
+import java.util.*
 
 class MovieAdapter : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
     private var listMovie = ArrayList<Movie>()
@@ -52,9 +53,11 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
         this.onItemClickCallback = onItemClickCallback
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setMovieList(movies: List<Movie>?) {
-        if (movies.isNullOrEmpty()) return
+        if (movies == null) return
         this.listMovie.clear()
         this.listMovie.addAll(movies)
+        notifyDataSetChanged()
     }
 }

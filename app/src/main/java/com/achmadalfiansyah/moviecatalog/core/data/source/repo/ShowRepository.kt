@@ -123,4 +123,30 @@ class ShowRepository(
 
         }.asFlow()
     }
+    override fun setFavoriteMovie(movie: Movie, isFavorite: Boolean) {
+        coroutineScope.launch(Dispatchers.IO) {
+            val movieEntity = DataMapper.mapMovieDomainToEntity(movie)
+            localDataSource.setFavoriteMovie(movieEntity,isFavorite)
+        }
+    }
+
+    override fun setFavoriteTvShow(tvShow: TvShow, isFavorite: Boolean) {
+        coroutineScope.launch(Dispatchers.IO) {
+            val tvShowEntity = DataMapper.mapTvShowDomainToEntity(tvShow)
+            localDataSource.setFavoriteTvShow(tvShowEntity,isFavorite)
+        }
+    }
+
+    override fun getFavoriteMovie(): Flow<List<Movie>> {
+        return localDataSource.getFavoriteMovieList().map {
+            DataMapper.mapMovieEntitiesToDomain(it)
+
+        }
+    }
+
+    override fun getFavoriteTvShow(): Flow<List<TvShow>> {
+        return  localDataSource.getFavoriteTvShowList().map {
+            DataMapper.mapTvShowEntitiesToDomain(it)
+        }
+    }
 }

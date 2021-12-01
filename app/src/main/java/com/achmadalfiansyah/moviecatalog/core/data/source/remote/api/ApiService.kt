@@ -2,7 +2,6 @@ package com.achmadalfiansyah.moviecatalog.core.data.source.remote.api
 
 import com.achmadalfiansyah.moviecatalog.BuildConfig
 import com.achmadalfiansyah.moviecatalog.core.data.source.remote.response.*
-import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query

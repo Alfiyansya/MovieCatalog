@@ -1,7 +1,5 @@
 package com.achmadalfiansyah.moviecatalog.core.data.source.local.room
 
-import androidx.lifecycle.LiveData
-
 import androidx.room.*
 import androidx.sqlite.db.SimpleSQLiteQuery
 import com.achmadalfiansyah.moviecatalog.core.data.source.local.entity.MovieEntity
@@ -15,11 +13,17 @@ interface MovieDao {
     @Query("SElECT * FROM movieentity WHERE movieId = :movieId")
     fun getMovieDetail(movieId: Int?): Flow<MovieEntity>
 
+
+    @Query("SELECT * FROM movieentity WHERE isFavorite = :isFavorite")
+    fun getFavoriteMovie(isFavorite: Boolean): Flow<List<MovieEntity>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertMovieList(movieEntity: List<MovieEntity>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertMovieDetail(movieEntity: MovieEntity)
+    @Update
+    fun updateMovie(movieEntity: MovieEntity)
 
 
 }

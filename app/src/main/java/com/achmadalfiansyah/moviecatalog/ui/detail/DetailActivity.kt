@@ -1,11 +1,12 @@
 package com.achmadalfiansyah.moviecatalog.ui.detail
 
 import android.annotation.SuppressLint
+import android.content.res.ColorStateList
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import com.achmadalfiansyah.moviecatalog.R
 import com.achmadalfiansyah.moviecatalog.core.domain.model.Movie
@@ -28,8 +29,6 @@ class DetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         _binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding?.root)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
         val id = intent.getStringExtra(EXTRA_ID)
         val key = intent.getStringExtra(EXTRA_KEY)
         checkKeyAndGetId(id,key)
@@ -66,6 +65,9 @@ class DetailActivity : AppCompatActivity() {
                     showProgressBar(false)
                     showDetailData(true)
                     setUpDataMovie(movie.data)
+                    val isFavorite = !movie.data?.isFavorite!!
+                    setUpFavMovieButton(movie.data, isFavorite)
+
                 }
                 is Resource.Error -> {
                     showProgressBar(false)
@@ -87,6 +89,9 @@ class DetailActivity : AppCompatActivity() {
                     showProgressBar(false)
                     showDetailData(true)
                     setUpDataTvShow(tvShow.data)
+                    val isFavorite = !tvShow.data?.isFavorite!!
+                    setUpFavTvShowButton(tvShow.data, isFavorite)
+
                 }
                 is Resource.Error -> {
                     showProgressBar(false)
@@ -152,6 +157,68 @@ class DetailActivity : AppCompatActivity() {
             this?.detailRating?.text = tvShow?.rating.toString()
             this?.detailOverviewValue?.text = tvShow?.overview.toString()
             this?.detailRatingBar?.rating = (tvShow?.rating?.toFloat()?.div(2)!!)
+        }
+    }
+    private fun setUpFavMovieButton(movie: Movie?, state: Boolean){
+        binding?.detailFabFavorite?.imageTintList =
+            if (state) {
+                ColorStateList.valueOf(Color.rgb(255, 255, 255))
+            } else {
+                ColorStateList.valueOf(Color.rgb(247, 106, 123))
+            }
+        binding?.detailFabFavorite?.apply {
+            setOnClickListener {
+                if (state) {
+                    if (movie != null) {
+                        detailViewModel.setFavoriteMovie(movie, state)
+                    }
+                    Toast.makeText(
+                        this@DetailActivity,
+                        " ${movie?.title} telah ditambahkan ke data Favorite ",
+                        Toast.LENGTH_LONG
+                    ).show()
+                } else {
+                    if (movie != null) {
+                        detailViewModel.setFavoriteMovie(movie, false)
+                    }
+                    Toast.makeText(
+                        this@DetailActivity,
+                        " ${movie?.title} telah dhapus dari data Favorite ",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+        }
+    }
+    private fun setUpFavTvShowButton(tvShow: TvShow?, state: Boolean) {
+        binding?.detailFabFavorite?.imageTintList =
+            if (state) {
+                ColorStateList.valueOf(Color.rgb(255, 255, 255))
+            } else {
+                ColorStateList.valueOf(Color.rgb(247, 106, 123))
+            }
+        binding?.detailFabFavorite?.apply {
+            setOnClickListener {
+                if (state) {
+                    if (tvShow != null) {
+                        detailViewModel.setFavoriteTvShow(tvShow, state)
+                    }
+                    Toast.makeText(
+                        this@DetailActivity,
+                        " ${tvShow?.name} telah ditambahkan ke data Favorite ",
+                        Toast.LENGTH_LONG
+                    ).show()
+                } else {
+                    if (tvShow != null) {
+                        detailViewModel.setFavoriteTvShow(tvShow, false)
+                    }
+                    Toast.makeText(
+                        this@DetailActivity,
+                        " ${tvShow?.name} telah dhapus dari data Favorite ",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
         }
     }
 

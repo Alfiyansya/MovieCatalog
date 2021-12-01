@@ -9,6 +9,8 @@
     <string name="worst_vote">Worst Vote</string>
     <string name="random">Random Vote</string>
     <string name="poster">Poster</string>
+    <string name="tab_text_1">Movie</string>
+    <string name="tab_text_2">TvShow</string>
     <string name="title">Title</string>
     <string name="text_rating">9.0</string>
     <string name="movie_text">Movie</string>
@@ -20,4 +22,5 @@
     <string name="genre">Genre</string>
     <string name="overview">Overview</string>
     <string name="favorite_button">Favorite Button</string>
+    <string name="tab_layout">Tab Layout</string>
 </resources>

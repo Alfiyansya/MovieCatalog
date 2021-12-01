@@ -10,4 +10,9 @@ interface IShowRepository {
     fun getTvShows(sort: String): Flow<Resource<List<TvShow>>>
     fun getMovieDetail(id : Int): Flow<Resource<Movie>>
     fun getTvShowDetail(id : Int?): Flow<Resource<TvShow>>
+    fun getFavoriteMovie(): Flow<List<Movie>>
+    fun setFavoriteMovie(movie: Movie, isFavorite: Boolean)
+    fun getFavoriteTvShow(): Flow<List<TvShow>>
+    fun setFavoriteTvShow(tvShow: TvShow, isFavorite: Boolean)
+
 }

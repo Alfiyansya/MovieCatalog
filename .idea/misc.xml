@@ -16,9 +16,11 @@
         <entry key="..\:/Users/Alf/AndroidStudioProjects/MovieCatalog/app/src/main/res/layout/activity_main.xml" value="0.1082427536231884" />
         <entry key="..\:/Users/Alf/AndroidStudioProjects/MovieCatalog/app/src/main/res/layout/activity_splash_screen.xml" value="0.1" />
         <entry key="..\:/Users/Alf/AndroidStudioProjects/MovieCatalog/app/src/main/res/layout/fragment_favorite.xml" value="0.1082427536231884" />
+        <entry key="..\:/Users/Alf/AndroidStudioProjects/MovieCatalog/app/src/main/res/layout/fragment_favorite_movie_and_tv_show.xml" value="0.16304347826086957" />
         <entry key="..\:/Users/Alf/AndroidStudioProjects/MovieCatalog/app/src/main/res/layout/fragment_home.xml" value="0.1082427536231884" />
-        <entry key="..\:/Users/Alf/AndroidStudioProjects/MovieCatalog/app/src/main/res/layout/fragment_movie.xml" value="0.165625" />
+        <entry key="..\:/Users/Alf/AndroidStudioProjects/MovieCatalog/app/src/main/res/layout/fragment_movie.xml" value="0.1" />
         <entry key="..\:/Users/Alf/AndroidStudioProjects/MovieCatalog/app/src/main/res/layout/fragment_tv_show.xml" value="0.1" />
+        <entry key="..\:/Users/Alf/AndroidStudioProjects/MovieCatalog/app/src/main/res/layout/item_show.xml" value="0.15760869565217392" />
         <entry key="..\:/Users/Alf/AndroidStudioProjects/MovieCatalog/app/src/main/res/menu/bottom_nav_menu.xml" value="0.19010416666666666" />
         <entry key="..\:/Users/Alf/StudioProjects/MovieCatalog/app/src/main/res/drawable-v24/ic_broken_image_black.xml" value="0.2203125" />
         <entry key="..\:/Users/Alf/StudioProjects/MovieCatalog/app/src/main/res/drawable-v24/ic_loading.xml" value="0.2203125" />

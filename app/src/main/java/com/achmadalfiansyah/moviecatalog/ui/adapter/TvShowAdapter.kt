@@ -1,5 +1,6 @@
 package com.achmadalfiansyah.moviecatalog.ui.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -42,10 +43,12 @@ class TvShowAdapter: RecyclerView.Adapter<TvShowAdapter.ViewHolder>() {
             }
         }
     }
+    @SuppressLint("NotifyDataSetChanged")
     fun setTvShowList(tvShow: List<TvShow>?) {
-        if (tvShow.isNullOrEmpty()) return
+        if (tvShow == null ) return
         this.listTvShow.clear()
         this.listTvShow.addAll(tvShow)
+        notifyDataSetChanged()
     }
     fun setOnItemClickCallback(onItemClickCallback: OnItemTvShowClickCallback) {
         this.onItemClickCallback = onItemClickCallback

@@ -19,4 +19,17 @@ class ShowInteractor(private val showRepository: IShowRepository) : ShowUseCase 
     override fun getTvShowDetail(id: Int): Flow<Resource<TvShow>> =
         showRepository.getTvShowDetail(id)
 
+    override fun getFavoriteMovie(): Flow<List<Movie>> =
+        showRepository.getFavoriteMovie()
+
+    override fun getFavoriteTvShow(): Flow<List<TvShow>> =
+        showRepository.getFavoriteTvShow()
+
+    override fun setFavoriteMovie(movie: Movie, state: Boolean) =
+        showRepository.setFavoriteMovie(movie,state)
+
+    override fun setFavoriteTvShow(tvShow: TvShow, state: Boolean) =
+        showRepository.setFavoriteTvShow(tvShow,state)
+
+
 }

@@ -26,6 +26,12 @@ class LocalDataSource(
     fun getTvShowDetail(tvShowId: Int?):
             Flow<TvShowEntity> = tvShowDao.getTvShowDetail(tvShowId)
 
+    fun getFavoriteMovieList(): Flow<List<MovieEntity>> =
+        movieDao.getFavoriteMovie(true)
+
+    fun getFavoriteTvShowList(): Flow< List<TvShowEntity>> =
+        tvShowDao.getFavoriteTvShow(true)
+
     fun insertMovieList(movieEntities: List<MovieEntity>) =
         movieDao.insertMovieList(movieEntities)
 
@@ -37,4 +43,15 @@ class LocalDataSource(
 
     fun insertTvShowDetail(tvShowEntities: TvShowEntity) =
         tvShowDao.insertTvShowDetail(tvShowEntities)
+
+    fun setFavoriteMovie(movieEntity: MovieEntity,isFavorite: Boolean) {
+        movieEntity.isFavorite = isFavorite
+        movieDao.updateMovie(movieEntity)
+    }
+
+    fun setFavoriteTvShow(tvShowEntity: TvShowEntity,isFavorite : Boolean) {
+        tvShowEntity.isFavorite = isFavorite
+        tvShowDao.updateTvShow(tvShowEntity)
+    }
+
 }

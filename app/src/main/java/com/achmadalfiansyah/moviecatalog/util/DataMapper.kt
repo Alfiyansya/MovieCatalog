@@ -140,15 +140,25 @@ object DataMapper {
             backdropPath = input.backdropPath,
             isFavorite = input.isFavorite
         )
-//    fun mapDomainToEntity(input: Movie) = MovieEntity(
-//        id = input.tourismId,
-//        description = input.description,
-//        name = input.name,
-//        address = input.address,
-//        latitude = input.latitude,
-//        longitude = input.longitude,
-//        like = input.like,
-//        image = input.image,
-//        isFavorite = input.isFavorite
-//    )
+
+    fun mapMovieDomainToEntity(input: Movie) = MovieEntity(
+        id = input.id,
+        title = input.title,
+        genres = input.genres,
+        overview = input.overview,
+        imagePath = input.imagePath,
+        rating = input.rating,
+        backdropPath = input.backdropPath,
+        isFavorite = input.isFavorite
+    )
+    fun mapTvShowDomainToEntity(input: TvShow) = TvShowEntity(
+        id = input.id,
+        name = input.name,
+        genres = input.genres,
+        overview = input.overview,
+        imagePath = input.imagePath,
+        rating = input.rating,
+        backdropPath = input.backdropPath,
+        isFavorite = input.isFavorite
+    )
 }

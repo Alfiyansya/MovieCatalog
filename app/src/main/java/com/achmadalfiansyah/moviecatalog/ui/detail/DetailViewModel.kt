@@ -12,4 +12,8 @@ class DetailViewModel constructor(private val showUseCase: ShowUseCase) : ViewMo
     fun getMovieDetail(id : Int) : LiveData<Resource<Movie>> = showUseCase.getMovieDetail(id).asLiveData()
     fun getTvShowDetail(id : Int) : LiveData<Resource<TvShow>> = showUseCase.getTvShowDetail(id).asLiveData()
 
+    fun setFavoriteMovie(movie: Movie,isFavorite: Boolean) =
+        showUseCase.setFavoriteMovie(movie,isFavorite)
+    fun setFavoriteTvShow(tvShow: TvShow, isFavorite: Boolean) =
+        showUseCase.setFavoriteTvShow(tvShow,isFavorite)
 }
