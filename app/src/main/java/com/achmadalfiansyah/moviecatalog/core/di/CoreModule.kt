@@ -11,8 +11,6 @@ import com.achmadalfiansyah.moviecatalog.core.data.source.remote.api.ApiBuilder
 import com.achmadalfiansyah.moviecatalog.core.data.source.remote.api.ApiService
 import com.achmadalfiansyah.moviecatalog.core.data.source.repo.ShowRepository
 import com.achmadalfiansyah.moviecatalog.core.domain.repository.IShowRepository
-import com.achmadalfiansyah.moviecatalog.core.domain.usecase.ShowInteractor
-import com.achmadalfiansyah.moviecatalog.core.domain.usecase.ShowUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import org.koin.android.ext.koin.androidApplication

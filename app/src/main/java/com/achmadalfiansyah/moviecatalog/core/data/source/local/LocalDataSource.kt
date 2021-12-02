@@ -25,6 +25,12 @@ class LocalDataSource(
 
     fun getTvShowDetail(tvShowId: Int?):
             Flow<TvShowEntity> = tvShowDao.getTvShowDetail(tvShowId)
+    fun getSearchMovieList(query: String):
+            Flow<List<MovieEntity>> =
+        movieDao.getSearchMovies(query)
+    fun getSearchTvShowList(query: String):
+            Flow<List<TvShowEntity>> =
+        tvShowDao.getSearchTvShows(query)
 
     fun getFavoriteMovieList(): Flow<List<MovieEntity>> =
         movieDao.getFavoriteMovie(true)

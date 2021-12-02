@@ -9,5 +9,5 @@ import com.achmadalfiansyah.moviecatalog.vo.Resource
 
 class MovieViewModel(private val showUseCase: ShowUseCase) : ViewModel() {
     fun getMovies(sort : String) : LiveData<Resource<List<Movie>>> = showUseCase.getAllMovie(sort).asLiveData()
-//    val movie = showUseCase.getAllMovie(BEST_VOTE).asLiveData()
+    fun getSearchMovie(query : String) : LiveData<Resource<List<Movie>>> = showUseCase.getSearchMovies(query).asLiveData()
 }

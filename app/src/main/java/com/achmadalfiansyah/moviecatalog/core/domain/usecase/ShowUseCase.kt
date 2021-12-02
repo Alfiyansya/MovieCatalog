@@ -11,6 +11,9 @@ interface ShowUseCase {
     fun getMovieDetail(id: Int): Flow<Resource<Movie>>
     fun getTvShowDetail(id: Int): Flow<Resource<TvShow>>
 
+    fun getSearchMovies(query: String): Flow<Resource<List<Movie>>>
+    fun getSearchTvShows(query: String): Flow<Resource<List<TvShow>>>
+
     fun getFavoriteMovie(): Flow<List<Movie>>
     fun getFavoriteTvShow(): Flow<List<TvShow>>
 

@@ -23,4 +23,6 @@
     <string name="overview">Overview</string>
     <string name="favorite_button">Favorite Button</string>
     <string name="tab_layout">Tab Layout</string>
+    <string name="search_movie_hint">Search Movie</string>
+    <string name="search_tv_show_hint">Search Tv Show</string>
 </resources>

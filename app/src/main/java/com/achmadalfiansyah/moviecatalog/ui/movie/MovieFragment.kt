@@ -8,6 +8,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -42,15 +43,48 @@ class MovieFragment : Fragment(), Toolbar.OnMenuItemClickListener {
         _binding = FragmentMovieBinding.inflate(inflater, container, false)
         setHasOptionsMenu(true)
         setUpToolbar()
+
         return binding.root
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         movieViewModel.getMovies(sort).observe(viewLifecycleOwner, movieObserver)
+        setUpSearchView()
     }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+    private fun setUpSearchView() {
+
+        with(binding) {
+            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String): Boolean {
+                    showProgressBar(true)
+                    movieViewModel.getSearchMovie(query).observe(requireActivity()) { searchUserResponse ->
+                        when (searchUserResponse) {
+                            is Resource.Loading -> showProgressBar(true)
+                            is Resource.Success -> {
+                                showProgressBar(false)
+                                movieAdapter.setMovieList(searchUserResponse.data)
+                                searchView.clearFocus()
+                                setUpRecyclerViewMovie()
+                            }
+                            is Resource.Error -> {
+                                showProgressBar(false)
+                                Toast.makeText(context, R.string.terjadi_kesalahan, Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    }
+                    return true
+                }
+
+                override fun onQueryTextChange(p0: String?): Boolean {
+                    return false
+                }
+            })
+
+        }
     }
 
     override fun onMenuItemClick(item: MenuItem): Boolean {

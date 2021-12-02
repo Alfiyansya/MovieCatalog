@@ -17,6 +17,9 @@ interface TvShowDao {
     @Query("SELECT * FROM tvshowentity WHERE isFavorite = :isFavorite")
     fun getFavoriteTvShow(isFavorite: Boolean): Flow<List<TvShowEntity>>
 
+    @Query("SELECT * FROM tvshowentity WHERE title = :query")
+    fun getSearchTvShows(query: String): Flow<List<TvShowEntity>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertTvShowList(TvShowEntity: List<TvShowEntity>)
 

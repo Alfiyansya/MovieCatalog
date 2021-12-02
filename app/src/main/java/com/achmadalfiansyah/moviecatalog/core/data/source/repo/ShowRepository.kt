@@ -11,8 +11,7 @@ import com.achmadalfiansyah.moviecatalog.util.DataMapper
 import com.achmadalfiansyah.moviecatalog.vo.Resource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class ShowRepository(
@@ -123,6 +122,55 @@ class ShowRepository(
 
         }.asFlow()
     }
+
+    override fun getSearchMovies(query: String): Flow<Resource<List<Movie>>> {
+        return object : NetworkBoundResource<List<Movie>, List<MovieResponse>>() {
+            override fun loadFromDB(): Flow<List<Movie>> {
+                return localDataSource.getSearchMovieList(query).map {
+                    DataMapper.mapMovieEntitiesToDomain(it)
+                }
+            }
+
+            override fun shouldFetch(data: List<Movie>?): Boolean =
+//                data == null || data.isEmpty()
+                true
+            override suspend fun createCall(): Flow<ApiResponse<List<MovieResponse>>> =
+                remoteDataSource.getSearchMovies(query)
+
+            override suspend fun saveCallResult(data: List<MovieResponse>) {
+                coroutineScope.launch(Dispatchers.IO) {
+                    val movieList = DataMapper.mapMovieResponsesToEntities(data)
+                    localDataSource.insertMovieList(movieList)
+                }
+            }
+
+        }.asFlow()
+    }
+
+    override fun getSearchTvShows(query: String): Flow<Resource<List<TvShow>>> {
+        return object : NetworkBoundResource<List<TvShow>, List<TvShowResponse>>() {
+            override fun loadFromDB(): Flow<List<TvShow>> {
+                return localDataSource.getSearchTvShowList(query).map {
+                    DataMapper.mapTvShowEntitiesToDomain(it)
+                }
+            }
+
+            override fun shouldFetch(data: List<TvShow>?): Boolean =
+//                data == null || data.isEmpty()
+                true
+            override suspend fun createCall(): Flow<ApiResponse<List<TvShowResponse>>> =
+                remoteDataSource.getSearchTvShows(query)
+
+            override suspend fun saveCallResult(data: List<TvShowResponse>) {
+                coroutineScope.launch(Dispatchers.IO) {
+                    val tvShowList = DataMapper.mapTvShowResponsesToEntities(data)
+                    localDataSource.insertTvShowList(tvShowList)
+                }
+            }
+
+        }.asFlow()
+    }
+
     override fun setFavoriteMovie(movie: Movie, isFavorite: Boolean) {
         coroutineScope.launch(Dispatchers.IO) {
             val movieEntity = DataMapper.mapMovieDomainToEntity(movie)

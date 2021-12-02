@@ -9,4 +9,5 @@ import com.achmadalfiansyah.moviecatalog.vo.Resource
 
 class TvShowViewModel(private val showUseCase : ShowUseCase) : ViewModel() {
     fun getTvShows(sort : String) : LiveData<Resource<List<TvShow>>> = showUseCase.getAllTvShow(sort).asLiveData()
+    fun getSearchTvShows(query : String) : LiveData<Resource<List<TvShow>>> = showUseCase.getSearchTvShows(query).asLiveData()
 }

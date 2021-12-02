@@ -8,6 +8,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -27,7 +28,6 @@ import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class TvShowFragment : Fragment(), Toolbar.OnMenuItemClickListener {
-
     private var _binding: FragmentTvShowBinding? = null
     private val binding get() = _binding!!
 
@@ -49,11 +49,43 @@ class TvShowFragment : Fragment(), Toolbar.OnMenuItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         tvShowViewModel.getTvShows(sort).observe(viewLifecycleOwner, tvShowObserver)
+        setUpSearchView()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+    private fun setUpSearchView() {
+
+        with(binding) {
+            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String): Boolean {
+                    showProgressBar(true)
+                    tvShowViewModel.getSearchTvShows(query).observe(requireActivity()) { searchUserResponse ->
+                        when (searchUserResponse) {
+                            is Resource.Loading -> showProgressBar(true)
+                            is Resource.Success -> {
+                                showProgressBar(false)
+                                tvShowAdapter.setTvShowList(searchUserResponse.data)
+                                searchView.clearFocus()
+                                setUpRecyclerViewTv()
+                            }
+                            is Resource.Error -> {
+                                showProgressBar(false)
+                                Toast.makeText(context, R.string.terjadi_kesalahan, Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    }
+                    return true
+                }
+
+                override fun onQueryTextChange(p0: String?): Boolean {
+                    return false
+                }
+            })
+
+        }
     }
 
     override fun onMenuItemClick(item: MenuItem): Boolean {

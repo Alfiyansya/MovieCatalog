@@ -38,6 +38,15 @@
             app:title="@string/tv_show_title"
             app:titleCentered="true"
             app:titleTextColor="@color/color_on_secondary" />
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/search_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:focusable="false"
+            android:background="@drawable/background_search_view"
+            app:iconifiedByDefault="false"
+            app:queryHint="@string/search_tv_show_hint" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

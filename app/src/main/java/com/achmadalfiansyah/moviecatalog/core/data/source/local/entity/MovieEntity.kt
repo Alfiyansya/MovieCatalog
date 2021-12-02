@@ -15,11 +15,11 @@ data class MovieEntity(
     @ColumnInfo(name = "title")
     val title: String?,
     @ColumnInfo(name = "genres")
-    val genres: String,
+    val genres: String?,
     @ColumnInfo(name = "description")
-    val overview: String,
+    val overview: String?,
     @ColumnInfo(name = "imagePath")
-    val imagePath: String,
+    val imagePath: String?,
     @ColumnInfo(name = "backdropPath")
     val backdropPath: String? = null,
     @ColumnInfo(name = "rating")

@@ -14,9 +14,9 @@ data class TvShowEntity(
     @ColumnInfo(name = "title")
     val name: String?,
     @ColumnInfo(name = "genres")
-    val genres: String,
+    val genres: String?,
     @ColumnInfo(name = "description")
-    val overview: String,
+    val overview: String?,
     @ColumnInfo(name = "imagePath")
     val imagePath: String?,
     @ColumnInfo(name = "backdropPath")
