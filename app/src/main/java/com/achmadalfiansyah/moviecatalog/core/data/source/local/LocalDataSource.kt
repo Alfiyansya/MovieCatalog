@@ -8,8 +8,11 @@ import com.achmadalfiansyah.moviecatalog.util.SortUtils
 import com.achmadalfiansyah.moviecatalog.util.SortUtils.MOVIE_ENTITY
 import com.achmadalfiansyah.moviecatalog.util.SortUtils.TV_SHOW_ENTITY
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class LocalDataSource(
+@Singleton
+class LocalDataSource @Inject constructor(
     private val movieDao: MovieDao, private val tvShowDao: TvShowDao
 ) {
     fun getMovieList(sort: String):

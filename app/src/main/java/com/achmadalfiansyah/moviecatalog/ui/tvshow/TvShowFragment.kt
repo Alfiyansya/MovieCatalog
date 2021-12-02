@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.achmadalfiansyah.moviecatalog.R
@@ -24,15 +25,19 @@ import com.achmadalfiansyah.moviecatalog.util.SortUtils.BEST_VOTE
 import com.achmadalfiansyah.moviecatalog.util.SortUtils.RANDOM_VOTE
 import com.achmadalfiansyah.moviecatalog.util.SortUtils.WORST_VOTE
 import com.achmadalfiansyah.moviecatalog.vo.Resource
-import org.koin.android.ext.android.inject
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class TvShowFragment : Fragment(), Toolbar.OnMenuItemClickListener {
     private var _binding: FragmentTvShowBinding? = null
     private val binding get() = _binding!!
 
-    private val tvShowViewModel: TvShowViewModel by viewModel()
-    private val tvShowAdapter: TvShowAdapter by inject()
+    private val tvShowViewModel: TvShowViewModel by viewModels()
+
+    @Inject
+    lateinit var tvShowAdapter: TvShowAdapter
+
     private var sort = BEST_VOTE
 
     override fun onCreateView(
@@ -73,7 +78,7 @@ class TvShowFragment : Fragment(), Toolbar.OnMenuItemClickListener {
                             }
                             is Resource.Error -> {
                                 showProgressBar(false)
-                                Toast.makeText(context, R.string.terjadi_kesalahan, Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, R.string.something_wrong, Toast.LENGTH_SHORT).show()
                             }
                         }
                     }
@@ -120,7 +125,7 @@ class TvShowFragment : Fragment(), Toolbar.OnMenuItemClickListener {
                 }
                 is Resource.Error -> {
                     showProgressBar(false)
-                    Toast.makeText(context, R.string.terjadi_kesalahan, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, R.string.something_wrong, Toast.LENGTH_SHORT).show()
                 }
             }
         }

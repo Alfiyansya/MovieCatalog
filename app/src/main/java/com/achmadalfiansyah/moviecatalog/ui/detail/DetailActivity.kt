@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import com.achmadalfiansyah.moviecatalog.R
 import com.achmadalfiansyah.moviecatalog.core.domain.model.Movie
@@ -17,13 +18,14 @@ import com.achmadalfiansyah.moviecatalog.util.SortUtils.IMAGE_ENDPOINT
 import com.achmadalfiansyah.moviecatalog.vo.Resource
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DetailActivity : AppCompatActivity() {
     private var _binding: ActivityDetailBinding? = null
     private val binding get() = _binding
 
-    private val detailViewModel: DetailViewModel by viewModel()
+    private val detailViewModel: DetailViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,7 +74,7 @@ class DetailActivity : AppCompatActivity() {
                 is Resource.Error -> {
                     showProgressBar(false)
                     showDetailData(false)
-                    Toast.makeText(this@DetailActivity, R.string.terjadi_kesalahan, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@DetailActivity, R.string.something_wrong, Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -97,7 +99,7 @@ class DetailActivity : AppCompatActivity() {
                     showProgressBar(false)
                     showDetailData(false)
                     showFailedLoadData(true)
-                    Toast.makeText(this@DetailActivity, R.string.terjadi_kesalahan, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@DetailActivity, R.string.something_wrong, Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -174,7 +176,7 @@ class DetailActivity : AppCompatActivity() {
                     }
                     Toast.makeText(
                         this@DetailActivity,
-                        " ${movie?.title} telah ditambahkan ke data Favorite ",
+                        " ${movie?.title} has added to your favorite",
                         Toast.LENGTH_LONG
                     ).show()
                 } else {
@@ -183,7 +185,7 @@ class DetailActivity : AppCompatActivity() {
                     }
                     Toast.makeText(
                         this@DetailActivity,
-                        " ${movie?.title} telah dhapus dari data Favorite ",
+                        " ${movie?.title} has removed from your favorite",
                         Toast.LENGTH_LONG
                     ).show()
                 }
@@ -205,7 +207,7 @@ class DetailActivity : AppCompatActivity() {
                     }
                     Toast.makeText(
                         this@DetailActivity,
-                        " ${tvShow?.name} telah ditambahkan ke data Favorite ",
+                        " ${tvShow?.name} has added to your favorite",
                         Toast.LENGTH_LONG
                     ).show()
                 } else {
@@ -214,7 +216,7 @@ class DetailActivity : AppCompatActivity() {
                     }
                     Toast.makeText(
                         this@DetailActivity,
-                        " ${tvShow?.name} telah dhapus dari data Favorite ",
+                        " ${tvShow?.name} has removed from your favorite",
                         Toast.LENGTH_LONG
                     ).show()
                 }

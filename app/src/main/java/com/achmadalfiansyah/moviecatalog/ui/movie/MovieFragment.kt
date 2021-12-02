@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.achmadalfiansyah.moviecatalog.R
@@ -24,15 +25,18 @@ import com.achmadalfiansyah.moviecatalog.util.SortUtils.BEST_VOTE
 import com.achmadalfiansyah.moviecatalog.util.SortUtils.RANDOM_VOTE
 import com.achmadalfiansyah.moviecatalog.util.SortUtils.WORST_VOTE
 import com.achmadalfiansyah.moviecatalog.vo.Resource
-import org.koin.android.ext.android.inject
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MovieFragment : Fragment(), Toolbar.OnMenuItemClickListener {
     private var _binding: FragmentMovieBinding? = null
     private val binding get() = _binding!!
 
-    private val movieViewModel: MovieViewModel by viewModel()
-    private val movieAdapter: MovieAdapter by inject()
+    private val movieViewModel: MovieViewModel by viewModels()
+
+    @Inject
+    lateinit var movieAdapter: MovieAdapter
     private var sort = BEST_VOTE
 
     override fun onCreateView(
@@ -46,36 +50,44 @@ class MovieFragment : Fragment(), Toolbar.OnMenuItemClickListener {
 
         return binding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         movieViewModel.getMovies(sort).observe(viewLifecycleOwner, movieObserver)
         setUpSearchView()
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
     private fun setUpSearchView() {
 
         with(binding) {
             searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String): Boolean {
                     showProgressBar(true)
-                    movieViewModel.getSearchMovie(query).observe(requireActivity()) { searchUserResponse ->
-                        when (searchUserResponse) {
-                            is Resource.Loading -> showProgressBar(true)
-                            is Resource.Success -> {
-                                showProgressBar(false)
-                                movieAdapter.setMovieList(searchUserResponse.data)
-                                searchView.clearFocus()
-                                setUpRecyclerViewMovie()
-                            }
-                            is Resource.Error -> {
-                                showProgressBar(false)
-                                Toast.makeText(context, R.string.terjadi_kesalahan, Toast.LENGTH_SHORT).show()
+                    movieViewModel.getSearchMovie(query)
+                        .observe(requireActivity()) { searchUserResponse ->
+                            when (searchUserResponse) {
+                                is Resource.Loading -> showProgressBar(true)
+                                is Resource.Success -> {
+                                    showProgressBar(false)
+                                    movieAdapter.setMovieList(searchUserResponse.data)
+                                    searchView.clearFocus()
+                                    setUpRecyclerViewMovie()
+                                }
+                                is Resource.Error -> {
+                                    showProgressBar(false)
+                                    Toast.makeText(
+                                        context,
+                                        R.string.something_wrong,
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
                             }
                         }
-                    }
                     return true
                 }
 
@@ -124,7 +136,7 @@ class MovieFragment : Fragment(), Toolbar.OnMenuItemClickListener {
                 }
                 is Resource.Error -> {
                     showProgressBar(false)
-                    Toast.makeText(context, R.string.terjadi_kesalahan, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, R.string.something_wrong, Toast.LENGTH_SHORT).show()
                 }
             }
         }

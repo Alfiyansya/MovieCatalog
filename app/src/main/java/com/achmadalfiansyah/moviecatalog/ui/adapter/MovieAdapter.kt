@@ -11,8 +11,11 @@ import com.achmadalfiansyah.moviecatalog.util.SortUtils.IMAGE_ENDPOINT
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import java.util.*
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class MovieAdapter : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
+@Singleton
+class MovieAdapter @Inject constructor() : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
     private var listMovie = ArrayList<Movie>()
     override fun onCreateViewHolder(
         parent: ViewGroup,

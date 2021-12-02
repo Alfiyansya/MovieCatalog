@@ -6,8 +6,11 @@ import androidx.lifecycle.asLiveData
 import com.achmadalfiansyah.moviecatalog.core.domain.model.Movie
 import com.achmadalfiansyah.moviecatalog.core.domain.model.TvShow
 import com.achmadalfiansyah.moviecatalog.core.domain.usecase.ShowUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class FavoriteViewModel(private val showUseCase: ShowUseCase) : ViewModel() {
+@HiltViewModel
+class FavoriteViewModel @Inject constructor(private val showUseCase: ShowUseCase) : ViewModel() {
     fun getFavoriteMovie() : LiveData<List<Movie>> = showUseCase.getFavoriteMovie().asLiveData()
     fun getFavoriteTvShow() : LiveData<List<TvShow>> = showUseCase.getFavoriteTvShow().asLiveData()
 }

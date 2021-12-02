@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.achmadalfiansyah.moviecatalog.core.domain.model.Movie
@@ -19,17 +20,21 @@ import com.achmadalfiansyah.moviecatalog.ui.adapter.TvShowAdapter
 import com.achmadalfiansyah.moviecatalog.ui.detail.DetailActivity
 import com.achmadalfiansyah.moviecatalog.util.DataMapper.MOVIE
 import com.achmadalfiansyah.moviecatalog.util.DataMapper.TVSHOW
-import org.koin.android.ext.android.inject
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import javax.inject.Inject
 
 @SuppressLint("NotifyDataSetChanged")
 class FavoriteMovieAndTvShowFragment : Fragment() {
 
     private var _binding: FragmentFavoriteMovieAndTvShowBinding? = null
     private val binding get() = _binding!!
-    private val favoriteViewModel: FavoriteViewModel by viewModel()
-    private val favMovieAdapter: MovieAdapter by inject()
-    private val favTvShowAdapter: TvShowAdapter by inject()
+    private val favoriteViewModel: FavoriteViewModel by viewModels()
+
+    @Inject
+    lateinit var favMovieAdapter: MovieAdapter
+
+    @Inject
+    lateinit var favTvShowAdapter: TvShowAdapter
+
     private var index = 0
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

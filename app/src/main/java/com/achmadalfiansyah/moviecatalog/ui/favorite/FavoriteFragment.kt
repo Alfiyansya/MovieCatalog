@@ -10,10 +10,10 @@ import com.achmadalfiansyah.moviecatalog.R
 import com.achmadalfiansyah.moviecatalog.databinding.FragmentFavoriteBinding
 import com.achmadalfiansyah.moviecatalog.ui.adapter.SectionPagerAdapter
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FavoriteFragment : Fragment() {
-
-
     private var _binding: FragmentFavoriteBinding? = null
     private val binding get() = _binding!!
 

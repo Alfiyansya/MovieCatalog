@@ -4,7 +4,7 @@
     <string name="title_tv_show">TvShow</string>
     <string name="title_favorite">Favorite</string>
     <string name="ic_logo">Logo</string>
-    <string name="terjadi_kesalahan">Terjadi Kesalahan</string>
+    <string name="something_wrong">Something Wrong</string>
     <string name="best_vote">Best Vote</string>
     <string name="worst_vote">Worst Vote</string>
     <string name="random">Random Vote</string>

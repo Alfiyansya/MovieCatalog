@@ -11,8 +11,11 @@ import com.achmadalfiansyah.moviecatalog.util.SortUtils.IMAGE_ENDPOINT
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import java.util.*
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class TvShowAdapter: RecyclerView.Adapter<TvShowAdapter.ViewHolder>() {
+@Singleton
+class TvShowAdapter @Inject constructor(): RecyclerView.Adapter<TvShowAdapter.ViewHolder>() {
     private var listTvShow = ArrayList<TvShow>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemShowBinding =

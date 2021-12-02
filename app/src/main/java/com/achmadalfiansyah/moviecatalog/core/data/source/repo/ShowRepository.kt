@@ -4,6 +4,7 @@ import com.achmadalfiansyah.moviecatalog.core.data.source.local.LocalDataSource
 import com.achmadalfiansyah.moviecatalog.core.data.source.remote.NetworkBoundResource
 import com.achmadalfiansyah.moviecatalog.core.data.source.remote.RemoteDataSource
 import com.achmadalfiansyah.moviecatalog.core.data.source.remote.response.*
+import com.achmadalfiansyah.moviecatalog.core.di.ApplicationScope
 import com.achmadalfiansyah.moviecatalog.core.domain.model.Movie
 import com.achmadalfiansyah.moviecatalog.core.domain.model.TvShow
 import com.achmadalfiansyah.moviecatalog.core.domain.repository.IShowRepository
@@ -13,11 +14,14 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class ShowRepository(
+@Singleton
+class ShowRepository @Inject constructor(
     private val remoteDataSource: RemoteDataSource,
     private val localDataSource: LocalDataSource,
-    private val coroutineScope: CoroutineScope
+    @ApplicationScope private val coroutineScope: CoroutineScope
 ) : IShowRepository {
     override fun getMovies(sort: String): Flow<Resource<List<Movie>>> {
         return object : NetworkBoundResource<List<Movie>, List<MovieResponse>>() {
