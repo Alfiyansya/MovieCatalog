@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import com.achmadalfiansyah.moviecatalog.R
 import com.achmadalfiansyah.moviecatalog.core.domain.model.Movie
 import com.achmadalfiansyah.moviecatalog.databinding.FragmentMovieBinding
@@ -21,6 +22,7 @@ import com.achmadalfiansyah.moviecatalog.ui.adapter.MovieAdapter
 import com.achmadalfiansyah.moviecatalog.ui.adapter.OnItemMovieClickCallback
 import com.achmadalfiansyah.moviecatalog.ui.detail.DetailActivity
 import com.achmadalfiansyah.moviecatalog.util.DataMapper.MOVIE
+import com.achmadalfiansyah.moviecatalog.util.ShowGridItemDecoration
 import com.achmadalfiansyah.moviecatalog.util.SortUtils.BEST_VOTE
 import com.achmadalfiansyah.moviecatalog.util.SortUtils.RANDOM_VOTE
 import com.achmadalfiansyah.moviecatalog.util.SortUtils.WORST_VOTE
@@ -146,13 +148,15 @@ class MovieFragment : Fragment(), Toolbar.OnMenuItemClickListener {
         binding.movieProgressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
-
     private fun setUpRecyclerViewMovie() {
         with(binding.rvMovie) {
             this.layoutManager =
                 GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false)
-            this.setHasFixedSize(true)
             this.adapter = movieAdapter
+            this.setHasFixedSize(true)
+            val largePadding = resources.getDimensionPixelSize(R.dimen.show_item_grid_spacing)
+            val smallPadding = resources.getDimensionPixelSize(R.dimen.show_item_grid_spacing_small)
+            this.addItemDecoration(ShowGridItemDecoration(largePadding,smallPadding))
         }
         movieAdapter.setOnItemClickCallback(object : OnItemMovieClickCallback {
             override fun onItemClicked(movie: Movie?) {

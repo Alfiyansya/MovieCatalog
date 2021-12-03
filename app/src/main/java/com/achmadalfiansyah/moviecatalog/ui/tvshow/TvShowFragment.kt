@@ -21,6 +21,7 @@ import com.achmadalfiansyah.moviecatalog.ui.adapter.OnItemTvShowClickCallback
 import com.achmadalfiansyah.moviecatalog.ui.adapter.TvShowAdapter
 import com.achmadalfiansyah.moviecatalog.ui.detail.DetailActivity
 import com.achmadalfiansyah.moviecatalog.util.DataMapper.TVSHOW
+import com.achmadalfiansyah.moviecatalog.util.ShowGridItemDecoration
 import com.achmadalfiansyah.moviecatalog.util.SortUtils.BEST_VOTE
 import com.achmadalfiansyah.moviecatalog.util.SortUtils.RANDOM_VOTE
 import com.achmadalfiansyah.moviecatalog.util.SortUtils.WORST_VOTE
@@ -136,8 +137,11 @@ class TvShowFragment : Fragment(), Toolbar.OnMenuItemClickListener {
         with(binding.rvTvShow) {
             this.layoutManager =
                 GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false)
-            this.setHasFixedSize(true)
             this.adapter = tvShowAdapter
+            this.setHasFixedSize(true)
+            val largePadding = resources.getDimensionPixelSize(R.dimen.show_item_grid_spacing)
+            val smallPadding = resources.getDimensionPixelSize(R.dimen.show_item_grid_spacing_small)
+            this.addItemDecoration(ShowGridItemDecoration(largePadding,smallPadding))
         }
         tvShowAdapter.setOnItemClickCallback(object : OnItemTvShowClickCallback {
             override fun onItemClicked(tvShow: TvShow?) {

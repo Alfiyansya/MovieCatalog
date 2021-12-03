@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
+import com.achmadalfiansyah.moviecatalog.R
 import com.achmadalfiansyah.moviecatalog.core.domain.model.Movie
 import com.achmadalfiansyah.moviecatalog.core.domain.model.TvShow
 import com.achmadalfiansyah.moviecatalog.databinding.FragmentFavoriteMovieAndTvShowBinding
@@ -20,9 +21,12 @@ import com.achmadalfiansyah.moviecatalog.ui.adapter.TvShowAdapter
 import com.achmadalfiansyah.moviecatalog.ui.detail.DetailActivity
 import com.achmadalfiansyah.moviecatalog.util.DataMapper.MOVIE
 import com.achmadalfiansyah.moviecatalog.util.DataMapper.TVSHOW
+import com.achmadalfiansyah.moviecatalog.util.ShowGridItemDecoration
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @SuppressLint("NotifyDataSetChanged")
+@AndroidEntryPoint
 class FavoriteMovieAndTvShowFragment : Fragment() {
 
     private var _binding: FragmentFavoriteMovieAndTvShowBinding? = null
@@ -82,10 +86,13 @@ class FavoriteMovieAndTvShowFragment : Fragment() {
 
     private fun setUpRecyclerViewFavMovie() {
         with(binding.rvFavorite) {
+            this.setHasFixedSize(true)
             this.adapter = favMovieAdapter
             this.layoutManager =
                 GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false)
-            this.setHasFixedSize(true)
+            val largePadding = resources.getDimensionPixelSize(R.dimen.show_item_grid_spacing)
+            val smallPadding = resources.getDimensionPixelSize(R.dimen.show_item_grid_spacing_small)
+            this.addItemDecoration(ShowGridItemDecoration(largePadding,smallPadding))
         }
         favMovieAdapter.setOnItemClickCallback(object : OnItemMovieClickCallback {
             override fun onItemClicked(movie: Movie?) {
@@ -101,10 +108,13 @@ class FavoriteMovieAndTvShowFragment : Fragment() {
 
     private fun setUpRecyclerViewFavTv() {
         with(binding.rvFavorite) {
+            this.setHasFixedSize(true)
             this.adapter = favTvShowAdapter
             this.layoutManager =
                 GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false)
-            this.setHasFixedSize(true)
+            val largePadding = resources.getDimensionPixelSize(R.dimen.show_item_grid_spacing)
+            val smallPadding = resources.getDimensionPixelSize(R.dimen.show_item_grid_spacing_small)
+            this.addItemDecoration(ShowGridItemDecoration(largePadding,smallPadding))
         }
         favTvShowAdapter.setOnItemClickCallback(object : OnItemTvShowClickCallback {
             override fun onItemClicked(tvShow: TvShow?) {

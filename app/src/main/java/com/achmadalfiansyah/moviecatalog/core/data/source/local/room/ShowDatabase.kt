@@ -7,7 +7,7 @@ import com.achmadalfiansyah.moviecatalog.core.data.source.local.entity.TvShowEnt
 
 @Database(
     entities = [MovieEntity::class, TvShowEntity::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class ShowDatabase : RoomDatabase() {
