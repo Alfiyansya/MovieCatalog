@@ -5,6 +5,8 @@
     <color name="colorTint">#60000000</color>
     <color name="color_primary">#0d253f</color>
     <color name="grey">#537B9A</color>
+    <color name="color_background_radius">#E2ECF0F1</color>
+    <color name="color_button">#0158DA</color>
     <color name="colorCardView">#0E182E</color>
     <color name="color_primary_variant">#00001a</color>
     <color name="color_on_primary">#394d6a</color>
