@@ -1,8 +1,11 @@
 package com.achmadalfiansyah.moviecatalog.ui.profile
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.ImageDecoder
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
@@ -27,6 +30,7 @@ import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.util.*
 
@@ -43,6 +47,7 @@ class ProfileFragment : Fragment(), Toolbar.OnMenuItemClickListener {
     private lateinit var storage: FirebaseStorage
     private lateinit var storageRef: StorageReference
     private lateinit var googleSignInClient: GoogleSignInClient
+    private lateinit var imgUri: Uri
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -58,6 +63,7 @@ class ProfileFragment : Fragment(), Toolbar.OnMenuItemClickListener {
         super.onViewCreated(view, savedInstanceState)
         auth = FirebaseAuth.getInstance()
         firebaseUser = FirebaseAuth.getInstance().currentUser!!
+        val currentUser = auth.currentUser
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_ids))
             .requestEmail()
@@ -72,18 +78,11 @@ class ProfileFragment : Fragment(), Toolbar.OnMenuItemClickListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val user = snapshot.getValue(User::class.java)
                 binding.etFullName.setText(user!!.userName)
-                if(user.userPhoneNumber == "null" ){
+                if (user.userPhoneNumber == "null") {
                     binding.etPhoneNumber.setText("")
-                }else{
+                } else {
                     binding.etPhoneNumber.setText(user.userPhoneNumber)
                 }
-                if (user.profileImage.isEmpty()) {
-                    binding.ivProfile.setImageResource(R.drawable.profile_image)
-                } else {
-                    Glide.with(this@ProfileFragment).load(user.profileImage).into(binding.ivProfile)
-                }
-
-
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -91,21 +90,34 @@ class ProfileFragment : Fragment(), Toolbar.OnMenuItemClickListener {
             }
 
         })
-        with(binding){
+        with(binding) {
+            if (currentUser != null){
+                if (currentUser.photoUrl == null) {
+                    binding.ivProfile.setImageResource(R.drawable.profile_image)
+                } else {
+                    Glide.with(this@ProfileFragment).load(currentUser.photoUrl)
+                        .into(binding.ivProfile)
+                }
+            }
             etEmail.setText(firebaseUser.email)
             ivProfile.setOnClickListener {
                 chooseImage()
             }
             btnSave.setOnClickListener {
-                uploadImage()
+                saveProfileToDatabase()
                 binding.progressBar.visibility = View.VISIBLE
             }
             verifiedEmailHere.setOnClickListener {
                 auth.currentUser?.sendEmailVerification()?.addOnCompleteListener {
-                    if (it.isSuccessful){
-                        Toast.makeText(activity, "Verification Email has been sent", Toast.LENGTH_SHORT).show()
-                    }else{
-                        Toast.makeText(activity, "${it.exception?.message}", Toast.LENGTH_SHORT).show()
+                    if (it.isSuccessful) {
+                        Toast.makeText(
+                            activity,
+                            "Verification Email has been sent",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        Toast.makeText(activity, "${it.exception?.message}", Toast.LENGTH_SHORT)
+                            .show()
                     }
                 }
             }
@@ -113,15 +125,18 @@ class ProfileFragment : Fragment(), Toolbar.OnMenuItemClickListener {
                 val actionChangePassword = ProfileFragmentDirections.actionChangePassword()
                 Navigation.findNavController(it).navigate(actionChangePassword)
             }
-            if (firebaseUser.isEmailVerified){
+            etEmail.setOnClickListener {
+                val actionUpdateEmail = ProfileFragmentDirections.actionUpdateEmail()
+                Navigation.findNavController(it).navigate(actionUpdateEmail)
+            }
+            if (firebaseUser.isEmailVerified) {
                 emailUnverified.visibility = View.VISIBLE
                 emailUnverified.text = getString(R.string.email_verified)
                 verifiedEmailHere.visibility = View.GONE
-            }else{
+            } else {
                 verifiedEmailHere.visibility = View.VISIBLE
             }
         }
-
 
     }
 
@@ -143,13 +158,26 @@ class ProfileFragment : Fragment(), Toolbar.OnMenuItemClickListener {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == PICK_IMAGE_REQUEST) {
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK) {
             filePath = data!!.data
             try {
-//                val resolver : ContentResolver? = activity?.contentResolver
-                val bitmap: Bitmap =
-                    MediaStore.Images.Media.getBitmap(activity?.contentResolver, filePath)
-                binding.ivProfile.setImageBitmap(bitmap)
+                filePath?.let {
+                    if(Build.VERSION.SDK_INT < 28) {
+                        val bitmap = MediaStore.Images.Media.getBitmap(
+                            activity?.contentResolver,
+                            filePath
+                        )
+                        binding.progressBar.visibility = View.VISIBLE
+                        uploadBitmap(bitmap)
+                    } else {
+                        val source = ImageDecoder.createSource(activity?.contentResolver!!,
+                            filePath!!
+                        )
+                        val bitmap = ImageDecoder.decodeBitmap(source)
+                        binding.progressBar.visibility = View.VISIBLE
+                        uploadBitmap(bitmap)
+                    }
+                }
 
             } catch (e: IOException) {
                 e.printStackTrace()
@@ -157,76 +185,59 @@ class ProfileFragment : Fragment(), Toolbar.OnMenuItemClickListener {
         }
     }
 
-    private fun uploadImage() {
-        val name = binding.etFullName.text.toString()
-        val phoneNumber = binding.etPhoneNumber.text.toString()
-        val image = when{
-            filePath != null -> filePath
-            firebaseUser.photoUrl == null -> Uri.parse(R.drawable.profile_image.toString())
-            else -> {firebaseUser.photoUrl}
-        }
-        val ref: StorageReference = storageRef.child("image/" + UUID.randomUUID().toString())
-        if (filePath != null) {
-            ref.putFile(filePath!!)
-                .addOnSuccessListener {
-                    val hashMap: HashMap<String, String> = HashMap()
-                    hashMap["userName"] = name
-                    hashMap["userPhoneNumber"] = phoneNumber
-                    hashMap["profileImage"] = filePath.toString()
-                    databaseReference.updateChildren(hashMap as Map<String, Any>)
-                    binding.progressBar.visibility = View.GONE
-                    Toast.makeText(context, "Uploaded", Toast.LENGTH_SHORT).show()
-                    updateProfile(name,filePath)
-                }
-                .addOnFailureListener {
-                    binding.progressBar.visibility = View.GONE
-                    Toast.makeText(context, "Failed" + it.message, Toast.LENGTH_SHORT)
-                        .show()
-                }
+    private fun uploadBitmap(imgBitmap: Bitmap) {
+        val baos = ByteArrayOutputStream()
+        val ref =
+            FirebaseStorage.getInstance().reference.child("img/" + UUID.randomUUID().toString())
 
-            UserProfileChangeRequest.Builder()
-                .setDisplayName(name)
-                .setPhotoUri(image)
-                .build().also {
-                    firebaseUser.updateProfile(it).addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            Toast.makeText(activity, "Profile Updated", Toast.LENGTH_SHORT).show()
-                        } else {
-                            Toast.makeText(activity, "${task.exception?.message}", Toast.LENGTH_SHORT)
-                                .show()
+        imgBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+        val image = baos.toByteArray()
+
+        ref.putBytes(image)
+            .addOnCompleteListener { upload ->
+                if (upload.isSuccessful) {
+                    ref.downloadUrl.addOnCompleteListener {
+                        it.result?.let { uri ->
+                            imgUri = uri
+                            binding.progressBar.visibility = View.GONE
+                            binding.ivProfile.setImageBitmap(imgBitmap)
                         }
                     }
                 }
-        }else{
-            image?.let {
-                ref.putFile(it)
-                    .addOnSuccessListener {
-                        val hashMap: HashMap<String, String> = HashMap()
-                        hashMap["userName"] = name
-                        hashMap["userPhoneNumber"] = phoneNumber
-                        hashMap["profileImage"] = filePath.toString()
-                        databaseReference.updateChildren(hashMap as Map<String, Any>)
-                        binding.progressBar.visibility = View.GONE
-                        Toast.makeText(context, "Uploaded", Toast.LENGTH_SHORT).show()
-                        updateProfile(name,filePath)
-                    }
-                    .addOnFailureListener {
-                        binding.progressBar.visibility = View.GONE
-                        Toast.makeText(context, "Please Input Your Profile Picture", Toast.LENGTH_SHORT)
-                            .show()
-                    }
             }
-        }
     }
-    private fun updateProfile(name:String,image:Uri?){
+
+    private fun saveProfileToDatabase() {
+        val user = auth.currentUser
+        val name = binding.etFullName.text.toString()
+        val phoneNumber = binding.etPhoneNumber.text.toString()
+        val uri =
+            Uri.parse("android.resource://com.achmadalfiansyah.moviecatalog/drawable/profile_image")
+        val image = when {
+            ::imgUri.isInitialized -> imgUri
+            user?.photoUrl == null -> uri
+            else -> user.photoUrl
+        }
+        val hashMap: HashMap<String, String> = HashMap()
+        hashMap["userName"] = name
+        hashMap["userPhoneNumber"] = phoneNumber
+        hashMap["profileImage"] = filePath.toString()
+        databaseReference.updateChildren(hashMap as Map<String, Any>)
+        binding.progressBar.visibility = View.GONE
+        updateProfile(name, image)
+    }
+
+    private fun updateProfile(name: String, image: Uri?) {
         UserProfileChangeRequest.Builder()
             .setDisplayName(name)
             .setPhotoUri(image)
             .build().also {
-                firebaseUser.updateProfile(it).addOnCompleteListener { task ->
+                auth.currentUser?.updateProfile(it)?.addOnCompleteListener { task ->
                     if (task.isSuccessful) {
+                        binding.progressBar.visibility = View.GONE
                         Toast.makeText(activity, "Profile Updated", Toast.LENGTH_SHORT).show()
                     } else {
+                        binding.progressBar.visibility = View.GONE
                         Toast.makeText(activity, "${task.exception?.message}", Toast.LENGTH_SHORT)
                             .show()
                     }

@@ -1,4 +1,4 @@
-package com.achmadalfiansyah.moviecatalog.ui.changepassword
+package com.achmadalfiansyah.moviecatalog.ui.change
 
 import android.os.Bundle
 import android.view.LayoutInflater

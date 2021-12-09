@@ -51,11 +51,11 @@ class LoginActivity : AppCompatActivity() {
             etEmail.doOnTextChanged{ text, _, _, _ ->
                 when {
                     text?.isEmpty()!! -> {
-                        etEmail.error = "Email belum di isi"
+                        etEmail.error = "This field cannot be blank"
                         btnSignIn.isEnabled = false
                     }
                     !Patterns.EMAIL_ADDRESS.matcher(text).matches() -> {
-                        etEmail.error = "Email tidak valid"
+                        etEmail.error = "Please enter a valid email address"
 
                         btnSignIn.isEnabled = false
                     }
@@ -69,11 +69,11 @@ class LoginActivity : AppCompatActivity() {
             etPassword.doOnTextChanged { text, _, _, _ ->
                 when {
                     text?.isEmpty()!! -> {
-                        etPassword.error = "Password belum di isi"
+                        etPassword.error = "This field cannot be blank"
                         btnSignIn.isEnabled = false
                     }
                     text.length < 6 -> {
-                        etPassword.error = "Password harus lebih dari 5 karakter"
+                        etPassword.error = "This field must be at least 6 characters in length"
                         btnSignIn.isEnabled = false
                     }
                     else -> {

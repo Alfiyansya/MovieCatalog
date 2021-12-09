@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/color_primary"
-    tools:context=".ui.change.ChangePasswordFragment">
+    tools:context=".ui.change.ChangeEmailFragment">
+
 
     <LinearLayout
         android:id="@+id/layoutPassword"
@@ -15,7 +16,7 @@
         android:animateLayoutChanges="true"
         android:gravity="center"
         android:orientation="vertical"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,14 +48,14 @@
             app:layout_constraintVertical_bias="0.0"
             app:passwordToggleEnabled="true">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etPassword"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/round_corner_toggle"
-                android:ems="10"
-                android:hint="@string/password"
-                android:inputType="textPassword" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etPassword"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/round_corner_toggle"
+            android:ems="10"
+            android:hint="@string/password"
+            android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
@@ -77,14 +78,14 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/layoutNewPassword"
+        android:id="@+id/layoutEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:animateLayoutChanges="true"
         android:gravity="center"
+        android:visibility="visible"
         android:orientation="vertical"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -95,13 +96,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:text="@string/input_new_password"
+            android:text="@string/input_your_new_email_address"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="22sp" />
 
+
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textFieldNewPassword"
+            android:id="@+id/textFieldEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
@@ -116,42 +118,16 @@
             app:layout_constraintVertical_bias="0.0"
             app:passwordToggleEnabled="true">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etNewPassword"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/round_corner_toggle"
-                android:ems="10"
-                android:hint="@string/new_password"
-                android:inputType="textPassword" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textFieldConfirmPassword"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etEmail"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            app:boxCornerRadiusBottomEnd="18dp"
-            app:boxCornerRadiusBottomStart="18dp"
-            app:boxCornerRadiusTopEnd="18dp"
-            app:boxCornerRadiusTopStart="18dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView3"
-            app:layout_constraintVertical_bias="0.0"
-            app:passwordToggleEnabled="true">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etNewPasswordConfirm"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/round_corner_toggle"
-                android:ems="10"
-                android:hint="@string/confirm_password"
-                android:inputType="textPassword" />
+            android:layout_height="match_parent"
+            android:background="@drawable/round_corner_toggle"
+            android:ems="10"
+            android:lines="1"
+            android:hint="@string/new_email_address"
+            android:inputType="textEmailAddress" />
         </com.google.android.material.textfield.TextInputLayout>
-
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnUpdate"
             android:layout_width="match_parent"
@@ -160,7 +136,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="45dp"
             android:backgroundTint="@color/color_button"
-            android:text="@string/update_password"
+            android:text="@string/update_email"
             android:textAllCaps="false"
             android:textColor="@color/white"
             app:cornerRadius="12dp"

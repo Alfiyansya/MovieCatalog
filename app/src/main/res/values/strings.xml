@@ -54,4 +54,8 @@
     <string name="update_password">Update Password</string>
     <string name="input_your_password">Please,input Your Password</string>
     <string name="input_new_password">Input new password</string>
+    <string name="input_your_new_email_address">Input your new Email Address</string>
+    <string name="new_email_address">New Email Address</string>
+    <string name="update_email">Update Email</string>
+    <string name="change_email">Change Email</string>
 </resources>
