@@ -3,6 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android Project/MovieCatalogCoin/app/src/main/res/layout/fragment_favorite.xml" value="0.11041666666666666" />
+        <entry key="..\:/Android Project/MovieCatalogCoin/app/src/main/res/layout/fragment_favorite_movie_and_tv_show.xml" value="0.1" />
+        <entry key="..\:/Android Project/MovieCatalogCoin/app/src/main/res/menu/bottom_nav_menu.xml" value="0.13958333333333334" />
+        <entry key="..\:/Android Project/MovieCatalogCoin/core/src/main/res/layout/fragment_favorite.xml" value="0.11041666666666666" />
+        <entry key="..\:/Android Project/MovieCatalogCoin/core/src/main/res/layout/item_show.xml" value="0.11041666666666666" />
+        <entry key="..\:/Android Project/MovieCatalogCoin/favorite/src/main/res/layout/fragment_favorite.xml" value="0.1" />
         <entry key="..\:/Users/Alf/AndroidStudioProjects/MovieCatalog/app/src/main/res/drawable-v24/ic_favorite_24.xml" value="0.2203125" />
         <entry key="..\:/Users/Alf/AndroidStudioProjects/MovieCatalog/app/src/main/res/drawable/background_search_view.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/Alf/AndroidStudioProjects/MovieCatalog/app/src/main/res/drawable/ic_favorite_border_24.xml" value="0.1421875" />

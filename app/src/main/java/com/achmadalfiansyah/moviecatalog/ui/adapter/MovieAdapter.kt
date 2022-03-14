@@ -5,8 +5,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.achmadalfiansyah.moviecatalog.R
+import com.achmadalfiansyah.moviecatalog.core.databinding.ItemShowBinding
 import com.achmadalfiansyah.moviecatalog.core.domain.model.Movie
-import com.achmadalfiansyah.moviecatalog.databinding.ItemShowBinding
 import com.achmadalfiansyah.moviecatalog.util.SortUtils.IMAGE_ENDPOINT
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
