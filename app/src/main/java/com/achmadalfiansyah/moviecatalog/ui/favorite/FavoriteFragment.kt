@@ -14,16 +14,16 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class FavoriteFragment : Fragment() {
-    private var _binding: FragmentFavoriteBinding? = null
-    private val binding get() = _binding!!
+    private var binding: FragmentFavoriteBinding? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentFavoriteBinding.inflate(inflater, container, false)
-        return binding.root
+        val fragmentFavoriteBinding = FragmentFavoriteBinding.inflate(inflater, container, false)
+        binding = fragmentFavoriteBinding
+        return fragmentFavoriteBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -32,18 +32,20 @@ class FavoriteFragment : Fragment() {
     }
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        binding = null
     }
 
 
     private fun setTabLayout(){
         val sectionPagerAdapter = SectionPagerAdapter(requireActivity().supportFragmentManager,lifecycle)
-        binding.viewPager.adapter = sectionPagerAdapter
-        binding.viewPager.let {
-            binding.favTabLayout.let { it1 ->
-                TabLayoutMediator(it1, it) { tab, position ->
-                    tab.text = resources.getString(TAB_TITLES[position])
-                }.attach()
+        binding?.viewPager?.adapter = sectionPagerAdapter
+        binding?.viewPager?.let {
+            binding?.favTabLayout.let { it1 ->
+                it1?.let { it2 ->
+                    TabLayoutMediator(it2, it) { tab, position ->
+                        tab.text = resources.getString(TAB_TITLES[position])
+                    }.attach()
+                }
             }
         }
     }

@@ -3,6 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android Project/MovieCatalog/app/src/main/res/drawable-v24/ic_baseline_photo_camera_24.xml" value="0.1265625" />
+        <entry key="..\:/Android Project/MovieCatalog/app/src/main/res/drawable/ic_google.xml" value="0.1265625" />
+        <entry key="..\:/Android Project/MovieCatalog/app/src/main/res/layout/activity_home.xml" value="0.16944444444444445" />
+        <entry key="..\:/Android Project/MovieCatalog/app/src/main/res/layout/item_show.xml" value="0.21822916666666667" />
+        <entry key="..\:/Android Project/MovieCatalog/app/src/main/res/menu/bottom_nav_menu.xml" value="0.16944444444444445" />
+        <entry key="..\:/Android Project/MovieCatalog/app/src/main/res/menu/filter_menu.xml" value="0.21822916666666667" />
+        <entry key="..\:/Android Project/MovieCatalog/app/src/main/res/menu/option_menu.xml" value="0.11041666666666666" />
+        <entry key="..\:/Android Project/MovieCatalog/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.21203703703703702" />
         <entry key="..\:/Users/Alf/AndroidStudioProjects/MovieCatalog/app/src/main/res/drawable-v24/ic_baseline_photo_camera_24.xml" value="0.16927083333333334" />
         <entry key="..\:/Users/Alf/AndroidStudioProjects/MovieCatalog/app/src/main/res/drawable-v24/ic_favorite_24.xml" value="0.2203125" />
         <entry key="..\:/Users/Alf/AndroidStudioProjects/MovieCatalog/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />

@@ -1,6 +1,5 @@
 package com.achmadalfiansyah.moviecatalog.ui.tvshow
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -31,8 +30,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class TvShowFragment : Fragment(), Toolbar.OnMenuItemClickListener {
-    private var _binding: FragmentTvShowBinding? = null
-    private val binding get() = _binding!!
+    private var binding: FragmentTvShowBinding? = null
 
     private val tvShowViewModel: TvShowViewModel by viewModels()
 
@@ -46,10 +44,11 @@ class TvShowFragment : Fragment(), Toolbar.OnMenuItemClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentTvShowBinding.inflate(inflater, container, false)
+        val fragmentTvShowBinding = FragmentTvShowBinding.inflate(inflater, container, false)
+        binding = fragmentTvShowBinding
         setHasOptionsMenu(true)
         setUpToolbar()
-        return binding.root
+        return fragmentTvShowBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -60,29 +59,35 @@ class TvShowFragment : Fragment(), Toolbar.OnMenuItemClickListener {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        binding = null
     }
+
     private fun setUpSearchView() {
 
         with(binding) {
-            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            this?.searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String): Boolean {
                     showProgressBar(true)
-                    tvShowViewModel.getSearchTvShows(query).observe(requireActivity()) { searchUserResponse ->
-                        when (searchUserResponse) {
-                            is Resource.Loading -> showProgressBar(true)
-                            is Resource.Success -> {
-                                showProgressBar(false)
-                                tvShowAdapter.setTvShowList(searchUserResponse.data)
-                                searchView.clearFocus()
-                                setUpRecyclerViewTv()
-                            }
-                            is Resource.Error -> {
-                                showProgressBar(false)
-                                Toast.makeText(context, R.string.something_wrong, Toast.LENGTH_SHORT).show()
+                    tvShowViewModel.getSearchTvShows(query)
+                        .observe(requireActivity()) { searchUserResponse ->
+                            when (searchUserResponse) {
+                                is Resource.Loading -> showProgressBar(true)
+                                is Resource.Success -> {
+                                    showProgressBar(false)
+                                    tvShowAdapter.setTvShowList(searchUserResponse.data)
+                                    searchView.clearFocus()
+                                    setUpRecyclerViewTv()
+                                }
+                                is Resource.Error -> {
+                                    showProgressBar(false)
+                                    Toast.makeText(
+                                        context,
+                                        R.string.something_wrong,
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
                             }
                         }
-                    }
                     return true
                 }
 
@@ -113,7 +118,6 @@ class TvShowFragment : Fragment(), Toolbar.OnMenuItemClickListener {
         return super.onOptionsItemSelected(item)
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     private val tvShowObserver = Observer<Resource<List<TvShow>>> { tvShows ->
         if (tvShows != null) {
             when (tvShows) {
@@ -122,7 +126,6 @@ class TvShowFragment : Fragment(), Toolbar.OnMenuItemClickListener {
                     showProgressBar(false)
                     tvShowAdapter.setTvShowList(tvShows.data)
                     setUpRecyclerViewTv()
-                    tvShowAdapter.notifyDataSetChanged()
                 }
                 is Resource.Error -> {
                     showProgressBar(false)
@@ -134,14 +137,16 @@ class TvShowFragment : Fragment(), Toolbar.OnMenuItemClickListener {
     }
 
     private fun setUpRecyclerViewTv() {
-        with(binding.rvTvShow) {
-            this.layoutManager =
-                GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false)
-            this.adapter = tvShowAdapter
-            this.setHasFixedSize(true)
+        with(binding?.rvTvShow) {
             val largePadding = resources.getDimensionPixelSize(R.dimen.show_item_grid_spacing)
             val smallPadding = resources.getDimensionPixelSize(R.dimen.show_item_grid_spacing_small)
-            this.addItemDecoration(ShowGridItemDecoration(largePadding,smallPadding))
+            this?.apply {
+                layoutManager =
+                    GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false)
+                adapter = tvShowAdapter
+                setHasFixedSize(true)
+                addItemDecoration(ShowGridItemDecoration(largePadding, smallPadding))
+            }
         }
         tvShowAdapter.setOnItemClickCallback(object : OnItemTvShowClickCallback {
             override fun onItemClicked(tvShow: TvShow?) {
@@ -154,10 +159,10 @@ class TvShowFragment : Fragment(), Toolbar.OnMenuItemClickListener {
     }
 
     private fun showProgressBar(isLoading: Boolean) {
-        binding.tvShowProgressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        binding?.tvShowProgressBar?.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
     private fun setUpToolbar() {
-        binding.tvShowToolbar.setOnMenuItemClickListener(this)
+        binding?.tvShowToolbar?.setOnMenuItemClickListener(this)
     }
 }

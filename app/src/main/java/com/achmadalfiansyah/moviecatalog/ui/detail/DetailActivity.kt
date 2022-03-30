@@ -1,6 +1,5 @@
 package com.achmadalfiansyah.moviecatalog.ui.detail
 
-import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
@@ -55,7 +54,6 @@ class DetailActivity : AppCompatActivity() {
         _binding = null
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     private val movieObserver = Observer<Resource<Movie>> { movie ->
         if (movie != null) {
             when (movie) {
@@ -125,11 +123,13 @@ class DetailActivity : AppCompatActivity() {
                     )
                     .into(it)
             }
-            this?.detailTitle?.text = movie?.title
-            this?.detailGenre?.text = movie?.genres
-            this?.detailRating?.text = movie?.rating.toString()
-            this?.detailOverviewValue?.text = movie?.overview
-            this?.detailRatingBar?.rating = (movie?.rating?.toFloat()?.div(2)!!)
+            this?.apply {
+                detailTitle.text = movie?.title
+                detailGenre.text = movie?.genres
+                detailRating.text = movie?.rating.toString()
+                detailOverviewValue.text = movie?.overview
+                detailRatingBar.rating = (movie?.rating?.toFloat()?.div(2)!!)
+            }
         }
     }
 
@@ -153,12 +153,13 @@ class DetailActivity : AppCompatActivity() {
                     )
                     .into(it)
             }
-
-            this?.detailTitle?.text = tvShow?.name
-            this?.detailGenre?.text = tvShow?.genres
-            this?.detailRating?.text = tvShow?.rating.toString()
-            this?.detailOverviewValue?.text = tvShow?.overview.toString()
-            this?.detailRatingBar?.rating = (tvShow?.rating?.toFloat()?.div(2)!!)
+            this?.apply {
+                detailTitle.text = tvShow?.name
+                detailGenre.text = tvShow?.genres
+                detailRating.text = tvShow?.rating.toString()
+                detailOverviewValue.text = tvShow?.overview.toString()
+                detailRatingBar.rating = (tvShow?.rating?.toFloat()?.div(2)!!)
+            }
         }
     }
     private fun setUpFavMovieButton(movie: Movie?, state: Boolean){

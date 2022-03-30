@@ -1,6 +1,5 @@
 package com.achmadalfiansyah.moviecatalog.ui.movie
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -31,8 +30,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MovieFragment : Fragment(), Toolbar.OnMenuItemClickListener {
-    private var _binding: FragmentMovieBinding? = null
-    private val binding get() = _binding!!
+    private var binding: FragmentMovieBinding? = null
 
     private val movieViewModel: MovieViewModel by viewModels()
 
@@ -45,28 +43,28 @@ class MovieFragment : Fragment(), Toolbar.OnMenuItemClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentMovieBinding.inflate(inflater, container, false)
-        setHasOptionsMenu(true)
-        setUpToolbar()
-
-        return binding.root
+        val fragmentMovieBinding = FragmentMovieBinding.inflate(inflater, container, false)
+        binding = fragmentMovieBinding
+        return fragmentMovieBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setHasOptionsMenu(true)
+        setUpToolbar()
         movieViewModel.getMovies(sort).observe(viewLifecycleOwner, movieObserver)
         setUpSearchView()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        binding = null
     }
 
     private fun setUpSearchView() {
 
         with(binding) {
-            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            this?.searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String): Boolean {
                     showProgressBar(true)
                     movieViewModel.getSearchMovie(query)
@@ -77,7 +75,6 @@ class MovieFragment : Fragment(), Toolbar.OnMenuItemClickListener {
                                     showProgressBar(false)
                                     movieAdapter.setMovieList(searchUserResponse.data)
                                     searchView.clearFocus()
-                                    setUpRecyclerViewMovie()
                                 }
                                 is Resource.Error -> {
                                     showProgressBar(false)
@@ -120,11 +117,6 @@ class MovieFragment : Fragment(), Toolbar.OnMenuItemClickListener {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun setUpToolbar() {
-        binding.movieToolbar.setOnMenuItemClickListener(this)
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
     private val movieObserver = Observer<Resource<List<Movie>>> { movies ->
         if (movies != null) {
             when (movies) {
@@ -133,7 +125,6 @@ class MovieFragment : Fragment(), Toolbar.OnMenuItemClickListener {
                     showProgressBar(false)
                     movieAdapter.setMovieList(movies.data)
                     setUpRecyclerViewMovie()
-                    movieAdapter.notifyDataSetChanged()
                 }
                 is Resource.Error -> {
                     showProgressBar(false)
@@ -143,20 +134,19 @@ class MovieFragment : Fragment(), Toolbar.OnMenuItemClickListener {
         }
     }
 
-    private fun showProgressBar(isLoading: Boolean) {
-        binding.movieProgressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-    }
-
     private fun setUpRecyclerViewMovie() {
-        with(binding.rvMovie) {
-            this.layoutManager =
-                GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false)
-            this.adapter = movieAdapter
-            this.setHasFixedSize(true)
+        with(binding?.rvMovie) {
             val largePadding = resources.getDimensionPixelSize(R.dimen.show_item_grid_spacing)
             val smallPadding = resources.getDimensionPixelSize(R.dimen.show_item_grid_spacing_small)
-            this.addItemDecoration(ShowGridItemDecoration(largePadding,smallPadding))
+            this?.apply {
+                layoutManager =
+                    GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false)
+                adapter = movieAdapter
+                setHasFixedSize(true)
+                addItemDecoration(ShowGridItemDecoration(largePadding, smallPadding))
+            }
         }
+
         movieAdapter.setOnItemClickCallback(object : OnItemMovieClickCallback {
             override fun onItemClicked(movie: Movie?) {
                 val intent = Intent(requireActivity(), DetailActivity::class.java)
@@ -167,4 +157,11 @@ class MovieFragment : Fragment(), Toolbar.OnMenuItemClickListener {
         })
     }
 
+    private fun showProgressBar(isLoading: Boolean) {
+        binding?.movieProgressBar?.visibility = if (isLoading) View.VISIBLE else View.GONE
+    }
+
+    private fun setUpToolbar() {
+        binding?.movieToolbar?.setOnMenuItemClickListener(this)
+    }
 }
