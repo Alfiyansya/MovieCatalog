@@ -7,14 +7,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.achmadalfiansyah.moviecatalog.R
 import com.achmadalfiansyah.moviecatalog.core.domain.model.Movie
 import com.achmadalfiansyah.moviecatalog.databinding.ItemShowBinding
+import com.achmadalfiansyah.moviecatalog.util.DataMapper.IMAGE_ENDPOINT
 import com.achmadalfiansyah.moviecatalog.util.MovieDiffUtil
-import com.achmadalfiansyah.moviecatalog.util.SortUtils.IMAGE_ENDPOINT
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
 class MovieAdapter @Inject constructor() : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
     private var oldListMovie = emptyList<Movie>()
     override fun onCreateViewHolder(

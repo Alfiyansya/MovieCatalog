@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.achmadalfiansyah.moviecatalog.core.domain.model.TvShow
 import com.achmadalfiansyah.moviecatalog.core.domain.usecase.ShowUseCase
-import com.achmadalfiansyah.moviecatalog.vo.Resource
+import com.achmadalfiansyah.moviecatalog.core.vo.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

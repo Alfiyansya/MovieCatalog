@@ -13,8 +13,8 @@ import com.achmadalfiansyah.moviecatalog.core.domain.model.Movie
 import com.achmadalfiansyah.moviecatalog.core.domain.model.TvShow
 import com.achmadalfiansyah.moviecatalog.databinding.ActivityDetailBinding
 import com.achmadalfiansyah.moviecatalog.util.DataMapper.MOVIE
-import com.achmadalfiansyah.moviecatalog.util.SortUtils.IMAGE_ENDPOINT
-import com.achmadalfiansyah.moviecatalog.vo.Resource
+import com.achmadalfiansyah.moviecatalog.util.DataMapper.IMAGE_ENDPOINT
+import com.achmadalfiansyah.moviecatalog.core.vo.Resource
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import dagger.hilt.android.AndroidEntryPoint

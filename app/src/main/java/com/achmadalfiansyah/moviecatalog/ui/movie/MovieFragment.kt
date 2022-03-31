@@ -21,10 +21,10 @@ import com.achmadalfiansyah.moviecatalog.ui.adapter.OnItemMovieClickCallback
 import com.achmadalfiansyah.moviecatalog.ui.detail.DetailActivity
 import com.achmadalfiansyah.moviecatalog.util.DataMapper.MOVIE
 import com.achmadalfiansyah.moviecatalog.util.ShowGridItemDecoration
-import com.achmadalfiansyah.moviecatalog.util.SortUtils.BEST_VOTE
-import com.achmadalfiansyah.moviecatalog.util.SortUtils.RANDOM_VOTE
-import com.achmadalfiansyah.moviecatalog.util.SortUtils.WORST_VOTE
-import com.achmadalfiansyah.moviecatalog.vo.Resource
+import com.achmadalfiansyah.moviecatalog.util.DataMapper.BEST_VOTE
+import com.achmadalfiansyah.moviecatalog.util.DataMapper.RANDOM_VOTE
+import com.achmadalfiansyah.moviecatalog.util.DataMapper.WORST_VOTE
+import com.achmadalfiansyah.moviecatalog.core.vo.Resource
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
