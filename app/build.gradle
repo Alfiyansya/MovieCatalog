@@ -44,12 +44,12 @@ android {
 
 dependencies {
     implementation project(":core")
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.4'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.8.1'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.10"
     testImplementation 'com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0'
-    testImplementation 'org.mockito:mockito-inline:3.8.0'
-    testImplementation "org.mockito:mockito-core:3.8.0"
+    testImplementation 'org.mockito:mockito-inline:4.4.0'
+    testImplementation 'org.mockito:mockito-core:4.4.0'
     testImplementation 'androidx.arch.core:core-testing:2.1.0'
     testImplementation 'junit:junit:4.13.2'
     implementation "com.google.android.play:core:1.10.3"
