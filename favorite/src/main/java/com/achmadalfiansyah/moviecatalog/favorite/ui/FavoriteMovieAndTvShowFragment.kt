@@ -1,6 +1,5 @@
 package com.achmadalfiansyah.moviecatalog.favorite.ui
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -24,7 +23,6 @@ import com.achmadalfiansyah.moviecatalog.ui.detail.DetailActivity
 import com.achmadalfiansyah.moviecatalog.util.DataMapper.MOVIE
 import com.achmadalfiansyah.moviecatalog.util.DataMapper.TVSHOW
 import com.achmadalfiansyah.moviecatalog.util.ShowGridItemDecoration
-import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.EntryPointAccessors
 import javax.inject.Inject
 

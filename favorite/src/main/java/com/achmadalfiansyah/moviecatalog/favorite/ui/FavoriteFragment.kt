@@ -7,12 +7,8 @@ import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import com.achmadalfiansyah.moviecatalog.R
-import com.achmadalfiansyah.moviecatalog.di.FavoriteDependencies
 import com.achmadalfiansyah.moviecatalog.favorite.databinding.FragmentFavoriteBinding
-import com.achmadalfiansyah.moviecatalog.favorite.di.DaggerFavoriteComponent
 import com.google.android.material.tabs.TabLayoutMediator
-import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.EntryPointAccessors
 
 
 class FavoriteFragment : Fragment() {
