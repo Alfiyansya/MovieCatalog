@@ -7,14 +7,14 @@ import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import com.achmadalfiansyah.moviecatalog.R
-import com.achmadalfiansyah.moviecatalog.databinding.FragmentFavoriteBinding
 import com.achmadalfiansyah.moviecatalog.di.FavoriteDependencies
+import com.achmadalfiansyah.moviecatalog.favorite.databinding.FragmentFavoriteBinding
 import com.achmadalfiansyah.moviecatalog.favorite.di.DaggerFavoriteComponent
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.EntryPointAccessors
 
-@AndroidEntryPoint
+
 class FavoriteFragment : Fragment() {
     private var binding: FragmentFavoriteBinding? = null
 
@@ -30,16 +30,6 @@ class FavoriteFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        DaggerFavoriteComponent.builder()
-            .context(requireContext())
-            .appDependencies(
-                EntryPointAccessors.fromApplication(
-                    requireContext(),
-                    FavoriteDependencies::class.java
-                )
-            )
-            .build()
-            .inject(this)
         setTabLayout()
     }
     override fun onDestroyView() {

@@ -59,6 +59,7 @@ class MovieFragment : Fragment(), Toolbar.OnMenuItemClickListener {
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
+        binding?.rvMovie?.adapter = null
     }
 
     private fun setUpSearchView() {

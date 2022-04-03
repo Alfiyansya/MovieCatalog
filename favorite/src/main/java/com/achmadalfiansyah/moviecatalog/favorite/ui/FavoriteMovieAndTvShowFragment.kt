@@ -13,7 +13,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.achmadalfiansyah.moviecatalog.R
 import com.achmadalfiansyah.moviecatalog.core.domain.model.Movie
 import com.achmadalfiansyah.moviecatalog.core.domain.model.TvShow
-import com.achmadalfiansyah.moviecatalog.databinding.FragmentFavoriteMovieAndTvShowBinding
+import com.achmadalfiansyah.moviecatalog.di.FavoriteDependencies
+import com.achmadalfiansyah.moviecatalog.favorite.databinding.FragmentFavoriteMovieAndTvShowBinding
+import com.achmadalfiansyah.moviecatalog.favorite.di.DaggerFavoriteComponent
 import com.achmadalfiansyah.moviecatalog.ui.adapter.MovieAdapter
 import com.achmadalfiansyah.moviecatalog.ui.adapter.OnItemMovieClickCallback
 import com.achmadalfiansyah.moviecatalog.ui.adapter.OnItemTvShowClickCallback
@@ -23,15 +25,19 @@ import com.achmadalfiansyah.moviecatalog.util.DataMapper.MOVIE
 import com.achmadalfiansyah.moviecatalog.util.DataMapper.TVSHOW
 import com.achmadalfiansyah.moviecatalog.util.ShowGridItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.EntryPointAccessors
 import javax.inject.Inject
 
-@SuppressLint("NotifyDataSetChanged")
-@AndroidEntryPoint
 class FavoriteMovieAndTvShowFragment : Fragment() {
 
     private var _binding: FragmentFavoriteMovieAndTvShowBinding? = null
     private val binding get() = _binding!!
-    private val favoriteViewModel: FavoriteViewModel by viewModels()
+
+    @Inject
+    lateinit var factory: ViewModelFactory
+    private val favoriteViewModel: FavoriteViewModel by viewModels{
+        factory
+    }
 
     @Inject
     lateinit var favMovieAdapter: MovieAdapter
@@ -50,6 +56,16 @@ class FavoriteMovieAndTvShowFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        DaggerFavoriteComponent.builder()
+            .context(requireContext())
+            .appDependencies(
+                EntryPointAccessors.fromApplication(
+                    requireContext(),
+                    FavoriteDependencies::class.java
+                )
+            )
+            .build()
+            .inject(this)
         super.onViewCreated(view, savedInstanceState)
         index = arguments?.getInt(ARG_SECTION_NUMBER, 0)!!
         indexCheck(index)
@@ -58,6 +74,7 @@ class FavoriteMovieAndTvShowFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+        _binding?.rvFavorite?.adapter = null
     }
 
     private fun indexCheck(index: Int) {

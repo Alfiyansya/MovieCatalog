@@ -60,6 +60,7 @@ class TvShowFragment : Fragment(), Toolbar.OnMenuItemClickListener {
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
+        binding?.rvTvShow?.adapter = null
     }
 
     private fun setUpSearchView() {
