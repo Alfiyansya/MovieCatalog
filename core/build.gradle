@@ -7,6 +7,7 @@ plugins {
     id 'androidx.navigation.safeargs'
 }
 apply from: '../shared_dependencies.gradle'
+
 android {
     compileSdk 33
 
@@ -15,7 +16,9 @@ android {
         targetSdk 33
         versionCode 1
         versionName "1.0"
-        buildConfigField("String", "TMDB_API_KEY", '"e4d33dfc185837ab7db234910d2d27f8"')
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file("local.properties").newDataInputStream())
+        buildConfigField "String", "TMDB_API_KEY", "\"${properties.getProperty("tmdb_api_key")}\""
         buildConfigField("String", "TMBD_BASE_URL", '"https://api.themoviedb.org/3/"')
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
