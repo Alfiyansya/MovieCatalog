@@ -8,12 +8,12 @@ plugins {
 }
 apply from: '../shared_dependencies.gradle'
 android {
-    compileSdk 31
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.achmadalfiansyah.moviecatalog.favorite"
         minSdk 21
-        targetSdk 31
+        targetSdk 33
         versionCode 1
         versionName "1.0"
         buildConfigField("String", "TMDB_API_KEY", '"e4d33dfc185837ab7db234910d2d27f8"')
@@ -32,16 +32,15 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
     }
-    compileSdkVersion 26
+    compileSdkVersion 33
 }
 
 dependencies {
     implementation project(":core")
     implementation project(":app")
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.6.10"
-    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.7.20"
+    implementation 'androidx.core:core-ktx:1.9.0'
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-    androidTestImplementation 'androidx.annotation:annotation:1.3.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
 }
